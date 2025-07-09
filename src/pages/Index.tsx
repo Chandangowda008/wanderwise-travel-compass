@@ -1,12 +1,32 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import { useState } from "react";
+import { SearchHeader } from "@/components/SearchHeader";
+import { HeroSection } from "@/components/HeroSection";
+import { RecommendationResults } from "@/components/RecommendationResults";
+import { FeatureHighlights } from "@/components/FeatureHighlights";
 
 const Index = () => {
+  const [searchCity, setSearchCity] = useState<string>("");
+  const [showResults, setShowResults] = useState<boolean>(false);
+
+  const handleSearch = (city: string) => {
+    console.log("Searching for city:", city);
+    setSearchCity(city);
+    setShowResults(true);
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-blue-50">
+      <SearchHeader onSearch={handleSearch} />
+      
+      {!showResults ? (
+        <>
+          <HeroSection onSearch={handleSearch} />
+          <FeatureHighlights />
+        </>
+      ) : (
+        <RecommendationResults city={searchCity} onNewSearch={() => setShowResults(false)} />
+      )}
     </div>
   );
 };
