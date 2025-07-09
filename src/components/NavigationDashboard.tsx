@@ -1,12 +1,17 @@
 
 import { useState } from "react";
-import { Compass, Map, Navigation, Route } from "lucide-react";
+import { Compass, Map, Navigation, Route, Sparkles, User, Wallet, TrendingUp, Cloud } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { GPSCompass } from "./GPSCompass";
 import { InteractiveMap } from "./InteractiveMap";
 import { TravelAdvisoryDashboard } from "./TravelAdvisoryDashboard";
 import { SmartItineraryPlanner } from "./SmartItineraryPlanner";
+import { WeatherWidget } from "./WeatherWidget";
+import { AITravelRecommendations } from "./AITravelRecommendations";
+import { TravelProfileManager } from "./TravelProfileManager";
+import { BudgetTracker } from "./BudgetTracker";
+import { TravelAnalytics } from "./TravelAnalytics";
 
 export const NavigationDashboard = () => {
   const [currentLocation, setCurrentLocation] = useState<{ lat: number; lng: number } | null>(null);
@@ -23,33 +28,50 @@ export const NavigationDashboard = () => {
             WanderWise <span className="text-primary">Navigation Hub</span>
           </h1>
           <p className="text-xl text-center text-muted-foreground">
-            Your complete travel companion for smart navigation and planning
+            Your complete AI-powered travel companion for smart navigation and intelligent planning
           </p>
         </div>
 
         <Tabs defaultValue="compass" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 mb-8">
+          <TabsList className="grid w-full grid-cols-4 lg:grid-cols-8 mb-8">
             <TabsTrigger value="compass" className="flex items-center gap-2">
               <Compass className="h-4 w-4" />
-              GPS Compass
+              <span className="hidden sm:inline">GPS Compass</span>
             </TabsTrigger>
             <TabsTrigger value="map" className="flex items-center gap-2">
               <Map className="h-4 w-4" />
-              Interactive Map
+              <span className="hidden sm:inline">Interactive Map</span>
             </TabsTrigger>
             <TabsTrigger value="advisory" className="flex items-center gap-2">
               <Navigation className="h-4 w-4" />
-              Travel Advisory
+              <span className="hidden sm:inline">Travel Advisory</span>
             </TabsTrigger>
             <TabsTrigger value="itinerary" className="flex items-center gap-2">
               <Route className="h-4 w-4" />
-              Smart Planner
+              <span className="hidden sm:inline">Smart Planner</span>
+            </TabsTrigger>
+            <TabsTrigger value="ai-recommendations" className="flex items-center gap-2">
+              <Sparkles className="h-4 w-4" />
+              <span className="hidden sm:inline">AI Recommendations</span>
+            </TabsTrigger>
+            <TabsTrigger value="profile" className="flex items-center gap-2">
+              <User className="h-4 w-4" />
+              <span className="hidden sm:inline">Travel Profile</span>
+            </TabsTrigger>
+            <TabsTrigger value="budget" className="flex items-center gap-2">
+              <Wallet className="h-4 w-4" />
+              <span className="hidden sm:inline">Budget Tracker</span>
+            </TabsTrigger>
+            <TabsTrigger value="analytics" className="flex items-center gap-2">
+              <TrendingUp className="h-4 w-4" />
+              <span className="hidden sm:inline">Analytics</span>
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="compass" className="space-y-6">
-            <div className="grid lg:grid-cols-2 gap-6">
+            <div className="grid lg:grid-cols-3 gap-6">
               <GPSCompass onLocationFound={handleLocationFound} />
+              
               <Card className="p-6">
                 <h3 className="text-xl font-display font-semibold mb-4">Navigation Stats</h3>
                 <div className="space-y-4">
@@ -74,6 +96,11 @@ export const NavigationDashboard = () => {
                   </div>
                 </div>
               </Card>
+
+              <WeatherWidget 
+                location={currentLocation || undefined} 
+                locationName="Paris, France" 
+              />
             </div>
           </TabsContent>
 
@@ -87,6 +114,22 @@ export const NavigationDashboard = () => {
 
           <TabsContent value="itinerary" className="space-y-6">
             <SmartItineraryPlanner />
+          </TabsContent>
+
+          <TabsContent value="ai-recommendations" className="space-y-6">
+            <AITravelRecommendations />
+          </TabsContent>
+
+          <TabsContent value="profile" className="space-y-6">
+            <TravelProfileManager />
+          </TabsContent>
+
+          <TabsContent value="budget" className="space-y-6">
+            <BudgetTracker />
+          </TabsContent>
+
+          <TabsContent value="analytics" className="space-y-6">
+            <TravelAnalytics />
           </TabsContent>
         </Tabs>
       </div>
