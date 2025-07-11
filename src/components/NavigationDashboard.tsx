@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Compass, Map, Navigation, Route, Sparkles, User, Wallet, TrendingUp, Cloud } from "lucide-react";
+import { Compass, Map, Navigation, Route, Sparkles, User, Wallet, TrendingUp, Cloud, WifiOff, Layers, Share2, Bell } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { GPSCompass } from "./GPSCompass";
@@ -12,6 +12,10 @@ import { AITravelRecommendations } from "./AITravelRecommendations";
 import { TravelProfileManager } from "./TravelProfileManager";
 import { BudgetTracker } from "./BudgetTracker";
 import { TravelAnalytics } from "./TravelAnalytics";
+import { OfflineMode } from "./OfflineMode";
+import { InteractiveMapView } from "./InteractiveMapView";
+import { SocialSharing } from "./SocialSharing";
+import { LocalAlerts } from "./LocalAlerts";
 
 export const NavigationDashboard = () => {
   const [currentLocation, setCurrentLocation] = useState<{ lat: number; lng: number } | null>(null);
@@ -33,7 +37,7 @@ export const NavigationDashboard = () => {
         </div>
 
         <Tabs defaultValue="compass" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 lg:grid-cols-8 mb-8">
+          <TabsList className="grid w-full grid-cols-6 lg:grid-cols-12 mb-8">
             <TabsTrigger value="compass" className="flex items-center gap-2">
               <Compass className="h-4 w-4" />
               <span className="hidden sm:inline">GPS Compass</span>
@@ -65,6 +69,22 @@ export const NavigationDashboard = () => {
             <TabsTrigger value="analytics" className="flex items-center gap-2">
               <TrendingUp className="h-4 w-4" />
               <span className="hidden sm:inline">Analytics</span>
+            </TabsTrigger>
+            <TabsTrigger value="offline" className="flex items-center gap-2">
+              <WifiOff className="h-4 w-4" />
+              <span className="hidden sm:inline">Offline Mode</span>
+            </TabsTrigger>
+            <TabsTrigger value="map-view" className="flex items-center gap-2">
+              <Layers className="h-4 w-4" />
+              <span className="hidden sm:inline">Map View</span>
+            </TabsTrigger>
+            <TabsTrigger value="social" className="flex items-center gap-2">
+              <Share2 className="h-4 w-4" />
+              <span className="hidden sm:inline">Social</span>
+            </TabsTrigger>
+            <TabsTrigger value="alerts" className="flex items-center gap-2">
+              <Bell className="h-4 w-4" />
+              <span className="hidden sm:inline">Local Alerts</span>
             </TabsTrigger>
           </TabsList>
 
@@ -130,6 +150,22 @@ export const NavigationDashboard = () => {
 
           <TabsContent value="analytics" className="space-y-6">
             <TravelAnalytics />
+          </TabsContent>
+
+          <TabsContent value="offline" className="space-y-6">
+            <OfflineMode />
+          </TabsContent>
+
+          <TabsContent value="map-view" className="space-y-6">
+            <InteractiveMapView />
+          </TabsContent>
+
+          <TabsContent value="social" className="space-y-6">
+            <SocialSharing />
+          </TabsContent>
+
+          <TabsContent value="alerts" className="space-y-6">
+            <LocalAlerts />
           </TabsContent>
         </Tabs>
       </div>
