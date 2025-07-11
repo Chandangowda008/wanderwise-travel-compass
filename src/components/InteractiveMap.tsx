@@ -4,7 +4,8 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { MapPin, Navigation, Plus, Minus, Settings, Eye, EyeOff } from "lucide-react";
+import { MapPin, Navigation, Plus, Minus, Settings, Eye, EyeOff, Globe } from "lucide-react";
+import { WorldMap } from "./WorldMap";
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
@@ -31,11 +32,12 @@ export const InteractiveMap = ({ currentLocation, onWaypointAdd }: InteractiveMa
   const [mapboxToken, setMapboxToken] = useState("");
   const [mapInitialized, setMapInitialized] = useState(false);
   const [showWaypointsList, setShowWaypointsList] = useState(true);
+  const [useMapbox, setUseMapbox] = useState(false);
   const markersRef = useRef<mapboxgl.Marker[]>([]);
 
-  // Initialize map when token is provided
+  // Initialize map when token is provided and mapbox is enabled
   useEffect(() => {
-    if (!mapContainer.current || !mapboxToken || mapInitialized) return;
+    if (!mapContainer.current || !mapboxToken || mapInitialized || !useMapbox) return;
 
     try {
       mapboxgl.accessToken = mapboxToken;
@@ -71,11 +73,11 @@ export const InteractiveMap = ({ currentLocation, onWaypointAdd }: InteractiveMa
         setMapInitialized(false);
       }
     };
-  }, [mapboxToken, mapInitialized]);
+  }, [mapboxToken, mapInitialized, useMapbox]);
 
-  // Update current location marker
+  // Update current location marker for Mapbox
   useEffect(() => {
-    if (!map.current || !currentLocation) return;
+    if (!map.current || !currentLocation || !useMapbox) return;
 
     const currentLocationMarker = new mapboxgl.Marker({ color: '#3B82F6' })
       .setLngLat([currentLocation.lng, currentLocation.lat])
@@ -84,11 +86,11 @@ export const InteractiveMap = ({ currentLocation, onWaypointAdd }: InteractiveMa
     return () => {
       currentLocationMarker.remove();
     };
-  }, [currentLocation, mapInitialized]);
+  }, [currentLocation, mapInitialized, useMapbox]);
 
-  // Update waypoint markers
+  // Update waypoint markers for Mapbox
   useEffect(() => {
-    if (!map.current) return;
+    if (!map.current || !useMapbox) return;
 
     // Clear existing markers
     markersRef.current.forEach(marker => marker.remove());
@@ -103,7 +105,14 @@ export const InteractiveMap = ({ currentLocation, onWaypointAdd }: InteractiveMa
       
       markersRef.current.push(marker);
     });
-  }, [waypoints, mapInitialized]);
+  }, [waypoints, mapInitialized, useMapbox]);
+
+  const handleWorldMapClick = (lat: number, lng: number) => {
+    if (!showAddWaypoint) {
+      setSelectedLocation({ lat, lng });
+      setShowAddWaypoint(true);
+    }
+  };
 
   const addWaypoint = () => {
     if (selectedLocation && waypointName.trim()) {
@@ -128,7 +137,7 @@ export const InteractiveMap = ({ currentLocation, onWaypointAdd }: InteractiveMa
   };
 
   const flyToLocation = (lat: number, lng: number) => {
-    if (map.current) {
+    if (map.current && useMapbox) {
       map.current.flyTo({
         center: [lng, lat],
         zoom: 14,
@@ -144,10 +153,18 @@ export const InteractiveMap = ({ currentLocation, onWaypointAdd }: InteractiveMa
           <div>
             <h3 className="text-xl font-display font-semibold">Interactive World Map</h3>
             <p className="text-sm text-muted-foreground">
-              {waypoints.length} waypoints • Click on map to add waypoints
+              {waypoints.length} waypoints • {useMapbox ? 'Mapbox Mode' : 'World Map Mode'}
             </p>
           </div>
           <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setUseMapbox(!useMapbox)}
+            >
+              <Globe className="h-4 w-4 mr-2" />
+              {useMapbox ? 'World Map' : 'Mapbox'}
+            </Button>
             <Button
               variant="outline"
               size="sm"
@@ -165,12 +182,12 @@ export const InteractiveMap = ({ currentLocation, onWaypointAdd }: InteractiveMa
                 <SheetHeader>
                   <SheetTitle>Map Settings</SheetTitle>
                   <SheetDescription>
-                    Configure your map preferences and add your Mapbox token.
+                    Configure your map preferences and add your Mapbox token for enhanced features.
                   </SheetDescription>
                 </SheetHeader>
                 <div className="space-y-4 mt-6">
                   <div>
-                    <label className="text-sm font-medium">Mapbox Public Token</label>
+                    <label className="text-sm font-medium">Mapbox Public Token (Optional)</label>
                     <Input
                       placeholder="Enter your Mapbox public token"
                       value={mapboxToken}
@@ -191,6 +208,7 @@ export const InteractiveMap = ({ currentLocation, onWaypointAdd }: InteractiveMa
                       <Button
                         size="sm"
                         onClick={() => flyToLocation(currentLocation.lat, currentLocation.lng)}
+                        disabled={!useMapbox}
                       >
                         <Navigation className="h-4 w-4 mr-2" />
                         Go to Current Location
@@ -205,54 +223,23 @@ export const InteractiveMap = ({ currentLocation, onWaypointAdd }: InteractiveMa
 
         {/* Map Container */}
         <div className="relative">
-          {!mapboxToken ? (
-            <div className="w-full h-96 bg-muted rounded-lg flex items-center justify-center">
-              <div className="text-center space-y-2">
-                <MapPin className="h-12 w-12 mx-auto text-muted-foreground" />
-                <p className="text-muted-foreground">Enter your Mapbox token to view the world map</p>
-                <Sheet>
-                  <SheetTrigger asChild>
-                    <Button>
-                      <Settings className="h-4 w-4 mr-2" />
-                      Configure Map
-                    </Button>
-                  </SheetTrigger>
-                  <SheetContent>
-                    <SheetHeader>
-                      <SheetTitle>Map Settings</SheetTitle>
-                      <SheetDescription>
-                        Add your Mapbox public token to enable the interactive world map.
-                      </SheetDescription>
-                    </SheetHeader>
-                    <div className="space-y-4 mt-6">
-                      <div>
-                        <label className="text-sm font-medium">Mapbox Public Token</label>
-                        <Input
-                          placeholder="Enter your Mapbox public token"
-                          value={mapboxToken}
-                          onChange={(e) => setMapboxToken(e.target.value)}
-                          className="mt-1"
-                        />
-                        <p className="text-xs text-muted-foreground mt-1">
-                          Get your token from <a href="https://mapbox.com" target="_blank" rel="noopener noreferrer" className="text-primary underline">mapbox.com</a>
-                        </p>
-                      </div>
-                    </div>
-                  </SheetContent>
-                </Sheet>
-              </div>
-            </div>
-          ) : (
+          {useMapbox && mapboxToken ? (
             <div
               ref={mapContainer}
               className="w-full h-96 rounded-lg border shadow-sm"
               style={{ minHeight: '400px' }}
             />
+          ) : (
+            <WorldMap
+              waypoints={waypoints}
+              onMapClick={handleWorldMapClick}
+              currentLocation={currentLocation}
+            />
           )}
 
           {/* Add Waypoint Overlay */}
           {showAddWaypoint && selectedLocation && (
-            <div className="absolute top-4 left-4 right-4 bg-background/95 backdrop-blur-sm border rounded-lg p-4 shadow-lg">
+            <div className="absolute top-4 left-4 right-4 bg-background/95 backdrop-blur-sm border rounded-lg p-4 shadow-lg z-10">
               <h4 className="font-medium mb-2">Add Waypoint</h4>
               <div className="flex gap-2">
                 <Input
@@ -313,6 +300,7 @@ export const InteractiveMap = ({ currentLocation, onWaypointAdd }: InteractiveMa
                     variant="ghost"
                     size="sm"
                     onClick={() => flyToLocation(waypoint.lat, waypoint.lng)}
+                    disabled={!useMapbox}
                   >
                     <Navigation className="h-4 w-4" />
                   </Button>
