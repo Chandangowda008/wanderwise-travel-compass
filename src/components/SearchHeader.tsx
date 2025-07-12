@@ -9,9 +9,10 @@ import { useIsMobile } from "@/hooks/use-mobile";
 interface SearchHeaderProps {
   onSearch: (city: string) => void;
   onNavigationToggle?: () => void;
+  onNavigateToFeature?: (feature: string) => void;
 }
 
-export const SearchHeader = ({ onSearch, onNavigationToggle }: SearchHeaderProps) => {
+export const SearchHeader = ({ onSearch, onNavigationToggle, onNavigateToFeature }: SearchHeaderProps) => {
   const [searchInput, setSearchInput] = useState("");
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const isMobile = useIsMobile();
@@ -36,15 +37,58 @@ export const SearchHeader = ({ onSearch, onNavigationToggle }: SearchHeaderProps
     }
   };
 
+  const handleFeatureClick = (feature: string) => {
+    if (onNavigateToFeature) {
+      onNavigateToFeature(feature);
+      setIsSheetOpen(false);
+    }
+  };
+
   const popularCities = ["Paris", "Tokyo", "New York", "Barcelona", "Rome"];
 
   const navigationFeatures = [
-    { icon: Compass, label: "Navigation Hub", description: "Access all navigation features", action: handleNavigationClick },
-    { icon: Globe, label: "Interactive Map", description: "Explore destinations visually" },
-    { icon: Heart, label: "Saved Places", description: "Your favorite destinations" },
-    { icon: TrendingUp, label: "Travel Analytics", description: "View your travel insights" },
-    { icon: Clock, label: "Itinerary Planner", description: "Plan your perfect trip" },
-    { icon: Users, label: "Social Sharing", description: "Share your adventures" },
+    { 
+      icon: Compass, 
+      label: "Navigation Hub", 
+      description: "Access all navigation features", 
+      action: () => handleNavigationClick(),
+      feature: "navigation"
+    },
+    { 
+      icon: Globe, 
+      label: "Interactive Map", 
+      description: "Explore destinations visually", 
+      action: () => handleFeatureClick("interactive-map"),
+      feature: "interactive-map"
+    },
+    { 
+      icon: Heart, 
+      label: "Saved Places", 
+      description: "Your favorite destinations", 
+      action: () => handleFeatureClick("saved-places"),
+      feature: "saved-places"
+    },
+    { 
+      icon: TrendingUp, 
+      label: "Travel Analytics", 
+      description: "View your travel insights", 
+      action: () => handleFeatureClick("travel-analytics"),
+      feature: "travel-analytics"
+    },
+    { 
+      icon: Clock, 
+      label: "Itinerary Planner", 
+      description: "Plan your perfect trip", 
+      action: () => handleFeatureClick("itinerary-planner"),
+      feature: "itinerary-planner"
+    },
+    { 
+      icon: Users, 
+      label: "Social Sharing", 
+      description: "Share your adventures", 
+      action: () => handleFeatureClick("social-sharing"),
+      feature: "social-sharing"
+    },
   ];
 
   return (
@@ -197,14 +241,22 @@ export const SearchHeader = ({ onSearch, onNavigationToggle }: SearchHeaderProps
                     Quick Actions
                   </h3>
                   <div className="space-y-2">
-                    <Button variant="ghost" className="w-full justify-start text-left p-3 rounded-lg hover:bg-orange-50">
+                    <Button 
+                      variant="ghost" 
+                      className="w-full justify-start text-left p-3 rounded-lg hover:bg-orange-50"
+                      onClick={() => handleFeatureClick("my-trips")}
+                    >
                       <MapPin className="h-4 w-4 mr-3" />
                       <div className="flex-1 text-left">
                         <div className="font-medium text-sm">My Trips</div>
                         <div className="text-xs text-muted-foreground">View your travel history</div>
                       </div>
                     </Button>
-                    <Button variant="ghost" className="w-full justify-start text-left p-3 rounded-lg hover:bg-orange-50">
+                    <Button 
+                      variant="ghost" 
+                      className="w-full justify-start text-left p-3 rounded-lg hover:bg-orange-50"
+                      onClick={() => handleFeatureClick("saved-places")}
+                    >
                       <Heart className="h-4 w-4 mr-3" />
                       <div className="flex-1 text-left">
                         <div className="font-medium text-sm">Saved Places</div>
