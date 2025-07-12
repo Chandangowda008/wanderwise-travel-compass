@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Search, MapPin, Sparkles, Menu, X } from "lucide-react";
+import { Search, MapPin, Sparkles, Menu, X, Navigation, Compass, Globe, Heart, TrendingUp, Clock, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -8,9 +8,10 @@ import { useIsMobile } from "@/hooks/use-mobile";
 
 interface SearchHeaderProps {
   onSearch: (city: string) => void;
+  onNavigationToggle?: () => void;
 }
 
-export const SearchHeader = ({ onSearch }: SearchHeaderProps) => {
+export const SearchHeader = ({ onSearch, onNavigationToggle }: SearchHeaderProps) => {
   const [searchInput, setSearchInput] = useState("");
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const isMobile = useIsMobile();
@@ -28,7 +29,23 @@ export const SearchHeader = ({ onSearch }: SearchHeaderProps) => {
     setIsSheetOpen(false);
   };
 
+  const handleNavigationClick = () => {
+    if (onNavigationToggle) {
+      onNavigationToggle();
+      setIsSheetOpen(false);
+    }
+  };
+
   const popularCities = ["Paris", "Tokyo", "New York", "Barcelona", "Rome"];
+
+  const navigationFeatures = [
+    { icon: Compass, label: "Navigation Hub", description: "Access all navigation features", action: handleNavigationClick },
+    { icon: Globe, label: "Interactive Map", description: "Explore destinations visually" },
+    { icon: Heart, label: "Saved Places", description: "Your favorite destinations" },
+    { icon: TrendingUp, label: "Travel Analytics", description: "View your travel insights" },
+    { icon: Clock, label: "Itinerary Planner", description: "Plan your perfect trip" },
+    { icon: Users, label: "Social Sharing", description: "Share your adventures" },
+  ];
 
   return (
     <header className="glass-effect sticky top-0 z-50 px-4 py-3 shadow-soft">
@@ -87,58 +104,86 @@ export const SearchHeader = ({ onSearch }: SearchHeaderProps) => {
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[300px] sm:w-[400px] p-0">
+            <SheetContent side="right" className="w-[320px] sm:w-[400px] p-0">
               <div className="p-6 h-full flex flex-col">
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-xl font-display font-bold text-gradient">Search</h2>
+                  <h2 className="text-xl font-display font-bold text-gradient">Menu</h2>
                   <Button variant="ghost" size="sm" onClick={() => setIsSheetOpen(false)}>
                     <X className="h-5 w-5" />
                   </Button>
                 </div>
 
                 {/* Mobile Search Form */}
-                <form onSubmit={handleSubmit} className="mb-6">
-                  <div className="relative group mb-4">
-                    <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-red-400 rounded-xl blur-md opacity-20"></div>
-                    <div className="relative flex items-center bg-white/90 backdrop-blur-sm rounded-xl border border-orange-200/50 overflow-hidden shadow-soft">
-                      <Search className="absolute left-3 text-muted-foreground h-4 w-4" />
-                      <Input
-                        type="text"
-                        placeholder="Enter your destination city..."
-                        value={searchInput}
-                        onChange={(e) => setSearchInput(e.target.value)}
-                        className="pl-10 pr-4 py-3 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-gray-400 text-base"
-                      />
+                <div className="mb-6">
+                  <h3 className="text-sm font-medium text-muted-foreground mb-3">Search Destination</h3>
+                  <form onSubmit={handleSubmit} className="mb-4">
+                    <div className="relative group mb-3">
+                      <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-red-400 rounded-xl blur-md opacity-20"></div>
+                      <div className="relative flex items-center bg-white/90 backdrop-blur-sm rounded-xl border border-orange-200/50 overflow-hidden shadow-soft">
+                        <Search className="absolute left-3 text-muted-foreground h-4 w-4" />
+                        <Input
+                          type="text"
+                          placeholder="Enter your destination city..."
+                          value={searchInput}
+                          onChange={(e) => setSearchInput(e.target.value)}
+                          className="pl-10 pr-4 py-3 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-gray-400 text-base"
+                        />
+                      </div>
+                    </div>
+                    <Button 
+                      type="submit" 
+                      className="w-full gradient-bg hover:opacity-90 transition-all duration-300 shadow-soft-hover text-white font-medium py-3"
+                    >
+                      <Search className="h-4 w-4 mr-2" />
+                      Search
+                    </Button>
+                  </form>
+
+                  {/* Quick Search Options */}
+                  <div>
+                    <h4 className="text-sm font-medium text-muted-foreground mb-2">Popular Destinations</h4>
+                    <div className="grid grid-cols-2 gap-2">
+                      {popularCities.map((city) => (
+                        <Button
+                          key={city}
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleQuickSearch(city)}
+                          className="justify-start text-sm py-2 px-3 rounded-lg border-orange-200 hover:bg-orange-50 hover:border-orange-300 transition-colors"
+                        >
+                          {city}
+                        </Button>
+                      ))}
                     </div>
                   </div>
-                  <Button 
-                    type="submit" 
-                    className="w-full gradient-bg hover:opacity-90 transition-all duration-300 shadow-soft-hover text-white font-medium py-3"
-                  >
-                    <Search className="h-4 w-4 mr-2" />
-                    Search
-                  </Button>
-                </form>
+                </div>
 
-                {/* Quick Search Options */}
+                {/* Navigation Hub Features */}
                 <div className="flex-1">
-                  <h3 className="text-sm font-medium text-muted-foreground mb-3">Popular Destinations</h3>
-                  <div className="grid grid-cols-2 gap-2">
-                    {popularCities.map((city) => (
+                  <h3 className="text-sm font-medium text-muted-foreground mb-3">Navigation Hub</h3>
+                  <div className="space-y-2">
+                    {navigationFeatures.map((feature, index) => (
                       <Button
-                        key={city}
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleQuickSearch(city)}
-                        className="justify-start text-sm py-2 px-3 rounded-lg border-orange-200 hover:bg-orange-50 hover:border-orange-300 transition-colors"
+                        key={index}
+                        variant="ghost"
+                        onClick={feature.action}
+                        className="w-full justify-start text-left p-3 rounded-lg hover:bg-orange-50 hover:text-orange-700 transition-colors group"
                       >
-                        {city}
+                        <div className="flex items-center gap-3">
+                          <div className="bg-gradient-to-br from-orange-100 to-red-100 p-2 rounded-lg group-hover:bg-gradient-to-br group-hover:from-orange-200 group-hover:to-red-200 transition-colors">
+                            <feature.icon className="h-4 w-4 text-orange-600" />
+                          </div>
+                          <div className="flex-1 text-left">
+                            <div className="font-medium text-sm">{feature.label}</div>
+                            <div className="text-xs text-muted-foreground">{feature.description}</div>
+                          </div>
+                        </div>
                       </Button>
                     ))}
                   </div>
                 </div>
 
-                {/* Mobile Navigation Links */}
+                {/* Quick Actions */}
                 <div className="mt-6 pt-6 border-t border-gray-200">
                   <h3 className="text-sm font-medium text-muted-foreground mb-3">Quick Actions</h3>
                   <div className="space-y-2">
