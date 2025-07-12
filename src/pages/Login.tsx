@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Mountain, Building2, Sparkles, Globe, Shield, Eye, EyeOff, Mail, Lock, ArrowRight, Users, Crown, Camera } from "lucide-react";
+import { Mountain, Building2, Sparkles, Globe, Shield, Eye, EyeOff, Mail, Lock, ArrowRight, Users, Crown } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -24,9 +24,6 @@ const Login = () => {
 
   const handleUserLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("User login attempt:", userEmail);
-    
-    // Simple validation for demo
     if (userEmail && userPassword) {
       toast({
         title: "Welcome back!",
@@ -44,9 +41,6 @@ const Login = () => {
 
   const handleAgencyLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Agency login attempt:", agencyEmail);
-    
-    // Simple validation for demo
     if (agencyEmail && agencyPassword) {
       toast({
         title: "Agency Login Successful",
@@ -64,115 +58,103 @@ const Login = () => {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* Animated Background */}
-      <div className="fixed inset-0 bg-gradient-to-br from-orange-50 via-white to-blue-50 -z-10"></div>
-      
-      {/* Floating Mountain Background */}
-      <div className="fixed inset-0 -z-5 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-48 h-48 md:w-64 md:h-64 bg-gradient-to-br from-orange-200/20 to-red-200/20 rounded-full blur-2xl md:blur-3xl floating-animation"></div>
-        <div className="absolute top-3/4 right-1/4 w-32 h-32 md:w-48 md:h-48 bg-gradient-to-br from-blue-200/20 to-cyan-200/20 rounded-full blur-xl md:blur-2xl floating-animation" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute bottom-1/4 left-1/2 w-24 h-24 md:w-32 md:h-32 bg-gradient-to-br from-purple-200/20 to-pink-200/20 rounded-full blur-xl md:blur-2xl floating-animation" style={{ animationDelay: '4s' }}></div>
-        
-        {/* Animated Particles */}
-        <div className="absolute inset-0">
-          {[...Array(20)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-2 h-2 bg-orange-400/30 rounded-full animate-particle-float"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 3}s`,
-                animationDuration: `${3 + Math.random() * 2}s`
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Floating Mountains */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 opacity-10">
-          <div className="flex justify-between items-end h-full px-8">
-            {[...Array(5)].map((_, i) => (
-              <div
-                key={i}
-                className="w-16 h-16 md:w-24 md:h-24 bg-gradient-to-t from-gray-800 to-gray-600 rounded-t-full transform rotate-12 animate-mountain-float"
-                style={{ 
-                  animationDelay: `${i * 0.5}s`,
-                  animationDuration: '6s'
-                }}
-              />
-            ))}
-          </div>
-        </div>
+      {/* Static Nature/Mountains SVG Background */}
+      <div className="fixed inset-0 -z-10 pointer-events-none select-none">
+        <svg viewBox="0 0 1440 900" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full object-cover">
+          <rect width="1440" height="900" fill="url(#bg-gradient)" />
+          <defs>
+            <linearGradient id="bg-gradient" x1="0" y1="0" x2="0" y2="1" gradientTransform="scale(1440 900)">
+              <stop offset="0%" stopColor="#fef7ed" />
+              <stop offset="60%" stopColor="#e0f7fa" />
+              <stop offset="100%" stopColor="#b2dfdb" />
+            </linearGradient>
+          </defs>
+          {/* Sun */}
+          <circle cx="1200" cy="180" r="80" fill="#fffde4" fillOpacity="0.7" />
+          {/* Mountains - back */}
+          <path d="M0 700 L300 500 L600 700 L900 400 L1200 700 L1440 600 L1440 900 L0 900 Z" fill="#b0bec5" />
+          {/* Mountains - mid */}
+          <path d="M0 800 L200 600 L400 800 L700 500 L1000 800 L1200 700 L1440 800 L1440 900 L0 900 Z" fill="#789262" />
+          {/* Mountains - front */}
+          <path d="M0 900 L100 800 L300 900 L600 700 L900 900 L1200 800 L1440 900 L1440 900 L0 900 Z" fill="#4e6e4c" />
+          {/* Trees */}
+          <g>
+            <rect x="250" y="780" width="10" height="40" fill="#5d4037" />
+            <polygon points="255,780 245,800 265,800" fill="#388e3c" />
+            <rect x="1100" y="820" width="12" height="50" fill="#6d4c41" />
+            <polygon points="1106,820 1090,850 1122,850" fill="#2e7d32" />
+            <rect x="800" y="850" width="8" height="30" fill="#795548" />
+            <polygon points="804,850 795,870 813,870" fill="#388e3c" />
+          </g>
+          {/* Grass */}
+          <ellipse cx="720" cy="890" rx="700" ry="30" fill="#a5d6a7" />
+        </svg>
       </div>
-
       <div className="flex items-center justify-center min-h-screen p-4">
-        <div className="w-full max-w-md md:max-w-lg animate-fade-in-up">
-          {/* Animated Header Section */}
+        <div className="w-full max-w-md md:max-w-lg">
+          {/* App Name and Logo (unaffected) */}
           <div className="text-center mb-8 md:mb-10">
-            <div className="flex items-center justify-center gap-3 mb-6 animate-bounce" style={{ animationDuration: '3s' }}>
-              <div className="relative group">
-                <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-red-400 rounded-xl blur-md opacity-30 group-hover:opacity-50 transition-opacity animate-pulse"></div>
-                <div className="relative bg-white rounded-xl p-3 shadow-soft transform group-hover:scale-110 transition-transform duration-300">
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-red-400 rounded-xl blur-md opacity-30"></div>
+                <div className="relative bg-white rounded-xl p-3 shadow-soft">
                   <Mountain className="h-8 w-8 md:h-10 md:w-10 text-gradient" />
                 </div>
               </div>
-              <div className="animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
-                <h1 className="text-3xl md:text-4xl font-display font-bold text-gradient animate-pulse">WanderWise</h1>
+              <div>
+                <h1 className="text-3xl md:text-4xl font-display font-bold text-gradient">WanderWise</h1>
                 <div className="flex items-center gap-1 justify-center mt-1">
-                  <Sparkles className="h-3 w-3 text-orange-500 animate-spin" style={{ animationDuration: '2s' }} />
+                  <Sparkles className="h-3 w-3 text-orange-500" />
                   <span className="text-xs text-muted-foreground">AI Travel Companion</span>
                 </div>
               </div>
             </div>
-            <div className="space-y-2 animate-fade-in-up" style={{ animationDelay: '1s' }}>
-              <h2 className="text-2xl md:text-3xl font-display font-semibold text-gray-900 animate-pulse">Welcome Back</h2>
-              <p className="text-base md:text-lg text-muted-foreground animate-pulse" style={{ animationDelay: '0.5s' }}>Sign in to discover amazing travel experiences</p>
+            <div className="space-y-2">
+              <h2 className="text-2xl md:text-3xl font-display font-semibold text-gray-900">Welcome Back</h2>
+              <p className="text-base md:text-lg text-muted-foreground">Sign in to discover amazing travel experiences</p>
             </div>
           </div>
-
-          {/* Main User Login Card with Enhanced Animations */}
-          <Card className="glass-card border-gradient shadow-soft-hover mb-6 transform hover:scale-105 transition-all duration-500 animate-fade-in-up" style={{ animationDelay: '1.5s' }}>
+          {/* Main User Login Card (unaffected) */}
+          <Card className="glass-card border-gradient shadow-soft-hover mb-6">
             <CardHeader className="text-center pb-6">
-              <div className="flex items-center justify-center mb-4 animate-bounce" style={{ animationDuration: '2s', animationDelay: '2s' }}>
-                <div className="bg-gradient-to-br from-orange-100 to-red-100 p-3 rounded-xl transform hover:rotate-12 transition-transform duration-300">
+              <div className="flex items-center justify-center mb-4">
+                <div className="bg-gradient-to-br from-orange-100 to-red-100 p-3 rounded-xl">
                   <Users className="h-6 w-6 text-gradient" />
                 </div>
               </div>
-              <CardTitle className="text-xl md:text-2xl font-display animate-pulse">Traveler Login</CardTitle>
-              <CardDescription className="text-sm md:text-base animate-pulse" style={{ animationDelay: '0.5s' }}>
+              <CardTitle className="text-xl md:text-2xl font-display">Traveler Login</CardTitle>
+              <CardDescription className="text-sm md:text-base">
                 Access personalized recommendations and plan your perfect trip
               </CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleUserLogin} className="space-y-6">
-                <div className="space-y-3 animate-fade-in-up" style={{ animationDelay: '2s' }}>
+                <div className="space-y-3">
                   <Label htmlFor="user-email" className="text-sm font-medium flex items-center gap-2">
-                    <Mail className="h-4 w-4 text-orange-500 animate-pulse" />
+                    <Mail className="h-4 w-4 text-orange-500" />
                     Email Address
                   </Label>
-                  <div className="relative group">
-                    <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-red-400 rounded-lg blur-md opacity-20 group-hover:opacity-30 transition-opacity"></div>
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-red-400 rounded-lg blur-md opacity-20"></div>
                     <Input
                       id="user-email"
                       type="email"
                       placeholder="Enter your email address"
                       value={userEmail}
                       onChange={(e) => setUserEmail(e.target.value)}
-                      className="relative bg-white/90 backdrop-blur-sm border-orange-200/50 focus:border-orange-300 transition-colors text-base pl-4 pr-4 py-3 transform hover:scale-105 transition-transform duration-300"
+                      className="relative bg-white/90 backdrop-blur-sm border-orange-200/50 focus:border-orange-300 transition-colors text-base pl-4 pr-4 py-3"
                       required
                     />
                   </div>
                 </div>
-                
-                <div className="space-y-3 animate-fade-in-up" style={{ animationDelay: '2.2s' }}>
+                <div className="space-y-3">
                   <Label htmlFor="user-password" className="text-sm font-medium flex items-center gap-2">
-                    <Lock className="h-4 w-4 text-orange-500 animate-pulse" />
+                    <Lock className="h-4 w-4 text-orange-500" />
                     Password
                   </Label>
-                  <div className="relative group">
-                    <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-red-400 rounded-lg blur-md opacity-20 group-hover:opacity-30 transition-opacity"></div>
-                    <div className="relative flex items-center bg-white/90 backdrop-blur-sm border border-orange-200/50 focus-within:border-orange-300 rounded-lg transition-colors transform hover:scale-105 transition-transform duration-300">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-red-400 rounded-lg blur-md opacity-20"></div>
+                    <div className="relative flex items-center bg-white/90 backdrop-blur-sm border border-orange-200/50 focus-within:border-orange-300 rounded-lg transition-colors">
                       <Input
                         id="user-password"
                         type={showUserPassword ? "text" : "password"}
@@ -187,83 +169,76 @@ const Login = () => {
                         variant="ghost"
                         size="sm"
                         onClick={() => setShowUserPassword(!showUserPassword)}
-                        className="absolute right-2 p-1 hover:bg-orange-50 transform hover:scale-110 transition-transform"
+                        className="absolute right-2 p-1 hover:bg-orange-50"
                       >
                         {showUserPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                       </Button>
                     </div>
                   </div>
                 </div>
-
-                <div className="flex items-center justify-between text-sm animate-fade-in-up" style={{ animationDelay: '2.4s' }}>
-                  <label className="flex items-center space-x-2 cursor-pointer transform hover:scale-105 transition-transform">
+                <div className="flex items-center justify-between text-sm">
+                  <label className="flex items-center space-x-2 cursor-pointer">
                     <input type="checkbox" className="rounded border-orange-300 text-orange-600 focus:ring-orange-500" />
                     <span className="text-muted-foreground">Remember me</span>
                   </label>
-                  <button type="button" className="text-orange-600 hover:text-orange-700 font-medium transform hover:scale-105 transition-transform">
+                  <button type="button" className="text-orange-600 hover:text-orange-700 font-medium">
                     Forgot password?
                   </button>
                 </div>
-
                 <Button 
                   type="submit" 
-                  className="w-full gradient-bg hover:opacity-90 transition-all duration-300 text-white font-semibold py-3 shadow-soft-hover text-base group transform hover:scale-105 animate-fade-in-up" 
-                  style={{ animationDelay: '2.6s' }}
+                  className="w-full gradient-bg hover:opacity-90 transition-all duration-300 text-white font-semibold py-3 shadow-soft-hover text-base group"
                 >
                   <Globe className="h-4 w-4 mr-2 group-hover:translate-x-1 transition-transform" />
                   Sign In & Explore
                   <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </form>
-
-              <div className="mt-6 text-center animate-fade-in-up" style={{ animationDelay: '2.8s' }}>
+              <div className="mt-6 text-center">
                 <p className="text-sm text-muted-foreground">
                   Don't have an account?{" "}
-                  <button className="text-orange-600 hover:text-orange-700 font-medium transform hover:scale-105 transition-transform">
+                  <button className="text-orange-600 hover:text-orange-700 font-medium">
                     Sign up for free
                   </button>
                 </p>
               </div>
             </CardContent>
           </Card>
-
-          {/* Agency Login Section with Enhanced Animations */}
-          <div className="text-center animate-fade-in-up" style={{ animationDelay: '3s' }}>
+          {/* Agency Login Section (unaffected) */}
+          <div className="text-center">
             <Separator className="my-6" />
             <div className="space-y-4">
-              <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground animate-pulse">
-                <Crown className="h-4 w-4 animate-bounce" style={{ animationDuration: '2s' }} />
+              <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                <Crown className="h-4 w-4" />
                 <span>Are you a travel agency?</span>
               </div>
-              
               {!showAgencyLogin ? (
                 <Button
                   variant="outline"
                   onClick={() => setShowAgencyLogin(true)}
-                  className="border-blue-200 hover:bg-blue-50 hover:border-blue-300 text-blue-700 transition-all duration-300 transform hover:scale-105 animate-pulse"
-                  style={{ animationDelay: '3.5s' }}
+                  className="border-blue-200 hover:bg-blue-50 hover:border-blue-300 text-blue-700 transition-all duration-300"
                 >
                   <Building2 className="h-4 w-4 mr-2" />
                   Agency Login
                 </Button>
               ) : (
-                <Card className="glass-card border-blue-200/50 shadow-soft animate-fade-in-up transform hover:scale-105 transition-all duration-500">
+                <Card className="glass-card border-blue-200/50 shadow-soft">
                   <CardHeader className="text-center pb-4">
-                    <div className="flex items-center justify-center mb-3 animate-bounce" style={{ animationDuration: '2s' }}>
-                      <div className="bg-gradient-to-br from-blue-100 to-cyan-100 p-2 rounded-lg transform hover:rotate-12 transition-transform duration-300">
+                    <div className="flex items-center justify-center mb-3">
+                      <div className="bg-gradient-to-br from-blue-100 to-cyan-100 p-2 rounded-lg">
                         <Shield className="h-5 w-5 text-blue-600" />
                       </div>
                     </div>
-                    <CardTitle className="text-lg font-display animate-pulse">Agency Portal</CardTitle>
-                    <CardDescription className="text-sm animate-pulse">
+                    <CardTitle className="text-lg font-display">Agency Portal</CardTitle>
+                    <CardDescription className="text-sm">
                       Manage and host travel experiences
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <form onSubmit={handleAgencyLogin} className="space-y-4">
-                      <div className="space-y-2 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                      <div className="space-y-2">
                         <Label htmlFor="agency-email" className="text-xs font-medium">Agency Email</Label>
-                        <div className="relative group">
+                        <div className="relative">
                           <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-lg blur-md opacity-20"></div>
                           <Input
                             id="agency-email"
@@ -271,17 +246,16 @@ const Login = () => {
                             placeholder="Enter agency email"
                             value={agencyEmail}
                             onChange={(e) => setAgencyEmail(e.target.value)}
-                            className="relative bg-white/90 backdrop-blur-sm border-blue-200/50 focus:border-blue-300 transition-colors text-sm transform hover:scale-105 transition-transform duration-300"
+                            className="relative bg-white/90 backdrop-blur-sm border-blue-200/50 focus:border-blue-300 transition-colors text-sm"
                             required
                           />
                         </div>
                       </div>
-                      
-                      <div className="space-y-2 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+                      <div className="space-y-2">
                         <Label htmlFor="agency-password" className="text-xs font-medium">Password</Label>
-                        <div className="relative group">
+                        <div className="relative">
                           <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-lg blur-md opacity-20"></div>
-                          <div className="relative flex items-center bg-white/90 backdrop-blur-sm border border-blue-200/50 focus-within:border-blue-300 rounded-lg transition-colors transform hover:scale-105 transition-transform duration-300">
+                          <div className="relative flex items-center bg-white/90 backdrop-blur-sm border border-blue-200/50 focus-within:border-blue-300 rounded-lg transition-colors">
                             <Input
                               id="agency-password"
                               type={showAgencyPassword ? "text" : "password"}
@@ -296,18 +270,17 @@ const Login = () => {
                               variant="ghost"
                               size="sm"
                               onClick={() => setShowAgencyPassword(!showAgencyPassword)}
-                              className="absolute right-1 p-1 hover:bg-blue-50 transform hover:scale-110 transition-transform"
+                              className="absolute right-1 p-1 hover:bg-blue-50"
                             >
                               {showAgencyPassword ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
                             </Button>
                           </div>
                         </div>
                       </div>
-                      
-                      <div className="flex gap-2 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
+                      <div className="flex gap-2">
                         <Button 
                           type="submit" 
-                          className="flex-1 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 transition-all duration-300 text-white font-medium py-2 text-sm shadow-soft-hover transform hover:scale-105"
+                          className="flex-1 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 transition-all duration-300 text-white font-medium py-2 text-sm shadow-soft-hover"
                         >
                           <Shield className="h-3 w-3 mr-1" />
                           Agency Sign In
@@ -316,7 +289,7 @@ const Login = () => {
                           type="button"
                           variant="outline"
                           onClick={() => setShowAgencyLogin(false)}
-                          className="px-3 py-2 text-sm border-gray-200 hover:bg-gray-50 transform hover:scale-105 transition-transform"
+                          className="px-3 py-2 text-sm border-gray-200 hover:bg-gray-50"
                         >
                           Cancel
                         </Button>
