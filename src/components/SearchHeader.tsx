@@ -107,21 +107,11 @@ export const SearchHeader = ({ onSearch, onNavigationToggle }: SearchHeaderProps
             <SheetContent side="right" className="w-[320px] sm:w-[400px] p-0">
               <div className="p-6 h-full flex flex-col">
                 {/* Header with Navigation Hub title */}
-                <div className="flex items-center justify-between mb-6">
-                  <div className="flex items-center gap-2">
-                    <div className="bg-gradient-to-br from-orange-100 to-red-100 p-2 rounded-lg">
-                      <Navigation className="h-5 w-5 text-orange-600" />
-                    </div>
-                    <h2 className="text-xl font-display font-bold text-gradient">Navigation Hub</h2>
+                <div className="flex items-center gap-2 mb-6">
+                  <div className="bg-gradient-to-br from-orange-100 to-red-100 p-2 rounded-lg">
+                    <Navigation className="h-5 w-5 text-orange-600" />
                   </div>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    onClick={() => setIsSheetOpen(false)}
-                    className="p-1 hover:bg-orange-50"
-                  >
-                    <X className="h-5 w-5" />
-                  </Button>
+                  <h2 className="text-xl font-display font-bold text-gradient">Navigation Hub</h2>
                 </div>
 
                 {/* Search Section */}
