@@ -32,13 +32,13 @@ const TravelFeed = () => {
       user: {
         name: "Sarah Johnson",
         username: "sarah_travels",
-        avatar: "/api/placeholder/40/40",
+        avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=40&h=40&fit=crop&crop=face",
         verified: true,
       },
       location: "Santorini, Greece",
       date: "2 hours ago",
       content: "Just watched the most incredible sunset from Oia! The white buildings against the golden sky are absolutely magical. This place truly lives up to its reputation. 🌅 #Santorini #Greece #Travel",
-      image: "/api/placeholder/400/300",
+      image: "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=400&h=300&fit=crop",
       likes: 1247,
       comments: 89,
       shares: 23,
@@ -51,13 +51,13 @@ const TravelFeed = () => {
       user: {
         name: "Mike Chen",
         username: "mike_explorer",
-        avatar: "/api/placeholder/40/40",
+        avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face",
         verified: false,
       },
       location: "Tokyo, Japan",
       date: "5 hours ago",
       content: "Exploring the vibrant streets of Shibuya! The energy here is incredible. Found this amazing ramen spot that locals recommended. Best bowl I've ever had! 🍜 #Tokyo #Japan #Ramen",
-      image: "/api/placeholder/400/300",
+      image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop",
       likes: 892,
       comments: 156,
       shares: 45,
@@ -70,13 +70,13 @@ const TravelFeed = () => {
       user: {
         name: "Emma Rodriguez",
         username: "emma_wanderlust",
-        avatar: "/api/placeholder/40/40",
+        avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face",
         verified: true,
       },
       location: "Barcelona, Spain",
       date: "1 day ago",
       content: "Gaudi's masterpiece - La Sagrada Familia! The architecture is mind-blowing. Every detail tells a story. Can't believe this has been under construction for over 140 years! ⛪ #Barcelona #Gaudi #Architecture",
-      image: "/api/placeholder/400/300",
+      image: "https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=400&h=300&fit=crop",
       likes: 2156,
       comments: 234,
       shares: 67,
@@ -89,13 +89,13 @@ const TravelFeed = () => {
       user: {
         name: "Alex Thompson",
         username: "alex_adventures",
-        avatar: "/api/placeholder/40/40",
+        avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face",
         verified: false,
       },
       location: "Bali, Indonesia",
       date: "2 days ago",
       content: "Morning yoga session with this view! The rice terraces of Tegalalang are absolutely breathtaking. This is what peace looks like. 🧘‍♀️🌾 #Bali #Yoga #RiceTerraces",
-      image: "/api/placeholder/400/300",
+      image: "https://images.unsplash.com/photo-1539367628448-4bc5c9d17119?w=400&h=300&fit=crop",
       likes: 1678,
       comments: 123,
       shares: 34,
@@ -188,6 +188,10 @@ const TravelFeed = () => {
                 src={post.image} 
                 alt={post.location}
                 className="w-full h-64 object-cover"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop";
+                }}
               />
               <div className="absolute top-3 left-3">
                 <Badge className="bg-black/50 text-white border-0">

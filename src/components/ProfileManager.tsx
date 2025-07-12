@@ -31,7 +31,7 @@ const ProfileManager = () => {
     username: "alex_traveler",
     bio: "Passionate traveler exploring the world one destination at a time. Love sharing authentic experiences and hidden gems! 🌍✈️",
     dateOfBirth: "1995-03-15",
-    avatar: "/api/placeholder/120/120",
+    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop&crop=face",
     location: "San Francisco, CA",
     website: "https://alex-travels.com",
     followers: 2847,
@@ -277,4 +277,5 @@ const ProfileManager = () => {
   );
 };
 
-export default ProfileManager; 
+export default ProfileManager;
+export { ProfileManager }; 

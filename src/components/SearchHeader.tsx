@@ -74,7 +74,7 @@ export const SearchHeader = ({ onSearch, onNavigationToggle, onNavigateToFeature
             className="p-2 hover:bg-orange-50"
           >
             <Avatar className="h-8 w-8">
-              <AvatarImage src="/api/placeholder/32/32" alt="Profile" />
+              <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face" alt="Profile" />
               <AvatarFallback className="bg-gradient-to-br from-orange-100 to-red-100 text-orange-600 text-sm">
                 A
               </AvatarFallback>
