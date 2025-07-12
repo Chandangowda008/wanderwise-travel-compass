@@ -45,52 +45,74 @@ function AppSidebar({ activeSection, setActiveSection }: { activeSection: string
   const isCollapsed = state === "collapsed";
 
   return (
-    <Sidebar className="border-r border-gray-200">
-      <SidebarContent className="bg-white/95 backdrop-blur-sm">
-        <div className="p-4 border-b border-gray-200">
+    <Sidebar className="border-r border-border/40 bg-gradient-to-b from-background to-background/80 backdrop-blur-md">
+      <SidebarContent className="bg-gradient-to-b from-background/95 to-background/90 backdrop-blur-sm">
+        <div className="p-6 border-b border-border/20">
           {!isCollapsed && (
-            <div>
-              <h1 className="text-xl font-display font-bold text-primary">WanderWise</h1>
-              <p className="text-xs text-muted-foreground">Navigation Hub</p>
+            <div className="text-center">
+              <h1 className="text-2xl font-display font-bold bg-gradient-to-r from-primary to-orange-500 bg-clip-text text-transparent">
+                WanderWise
+              </h1>
+              <p className="text-sm text-muted-foreground mt-1">Navigation Hub</p>
+              <div className="w-12 h-1 bg-gradient-to-r from-primary to-orange-500 rounded-full mx-auto mt-2"></div>
             </div>
           )}
         </div>
 
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-sm font-medium text-gray-600 px-2">
-            Navigation
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {navigationItems.map((item) => {
-                const Icon = item.icon;
-                const isActive = activeSection === item.id;
-                
-                return (
-                  <SidebarMenuItem key={item.id}>
-                    <SidebarMenuButton 
-                      onClick={() => setActiveSection(item.id)}
-                      className={`w-full justify-start gap-3 px-3 py-2 transition-all duration-200 ${
-                        isActive 
-                          ? 'bg-primary text-primary-foreground hover:bg-primary/90' 
-                          : 'hover:bg-gray-100 text-gray-700 hover:text-primary'
-                      }`}
-                      tooltip={isCollapsed ? item.label : undefined}
-                    >
-                      <Icon className="h-4 w-4 flex-shrink-0" />
-                      {!isCollapsed && <span className="font-medium">{item.label}</span>}
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                );
-              })}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        <div className="px-3 py-4">
+          <SidebarGroup>
+            <SidebarGroupLabel className="text-sm font-semibold text-muted-foreground px-3 mb-2 uppercase tracking-wider">
+              Features
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu className="space-y-1">
+                {navigationItems.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = activeSection === item.id;
+                  
+                  return (
+                    <SidebarMenuItem key={item.id}>
+                      <SidebarMenuButton 
+                        onClick={() => setActiveSection(item.id)}
+                        className={`w-full justify-start gap-3 px-4 py-3 rounded-lg transition-all duration-300 group ${
+                          isActive 
+                            ? 'bg-gradient-to-r from-primary/10 to-orange-500/10 text-primary border border-primary/20 shadow-sm' 
+                            : 'hover:bg-accent/50 text-muted-foreground hover:text-foreground hover:scale-[1.02]'
+                        }`}
+                        tooltip={isCollapsed ? item.label : undefined}
+                      >
+                        <Icon className={`h-5 w-5 flex-shrink-0 transition-colors ${
+                          isActive ? 'text-primary' : 'text-muted-foreground group-hover:text-foreground'
+                        }`} />
+                        {!isCollapsed && (
+                          <span className={`font-medium transition-colors ${
+                            isActive ? 'text-primary' : 'text-muted-foreground group-hover:text-foreground'
+                          }`}>
+                            {item.label}
+                          </span>
+                        )}
+                        {isActive && !isCollapsed && (
+                          <div className="ml-auto w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+                        )}
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  );
+                })}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </div>
 
         {!isCollapsed && (
-          <div className="mt-auto p-4 border-t border-gray-200">
-            <div className="text-xs text-muted-foreground text-center">
-              AI-powered travel companion
+          <div className="mt-auto p-6 border-t border-border/20">
+            <div className="text-center">
+              <div className="text-xs text-muted-foreground mb-2">
+                AI-powered travel companion
+              </div>
+              <div className="flex items-center justify-center gap-1">
+                <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
+                <span className="text-xs text-green-600 font-medium">Connected</span>
+              </div>
             </div>
           </div>
         )}
@@ -107,38 +129,135 @@ export const NavigationDashboard = () => {
     switch (activeSection) {
       case "home":
         return (
-          <div className="space-y-6">
-            <Card className="p-6">
-              <h3 className="text-xl font-display font-semibold mb-4">Welcome to WanderWise Navigation Hub</h3>
-              <p className="text-muted-foreground mb-4">
-                Your complete AI-powered travel companion for smart navigation and intelligent planning.
-              </p>
-              <Button onClick={() => navigate("/home")} className="w-full sm:w-auto">
-                Go to Home Page
-              </Button>
-            </Card>
+          <div className="space-y-8">
+            {/* Welcome Hero Section */}
+            <div className="text-center py-12">
+              <div className="mb-6">
+                <h1 className="text-4xl font-display font-bold bg-gradient-to-r from-primary via-orange-500 to-primary bg-clip-text text-transparent mb-4">
+                  Welcome to WanderWise
+                </h1>
+                <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+                  Your complete AI-powered travel companion for smart navigation and intelligent planning
+                </p>
+              </div>
+              
+              {/* Quick Action Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mt-12">
+                {[
+                  { id: "advisory", title: "Travel Advisory", desc: "Check safety & alerts", icon: Navigation, color: "blue" },
+                  { id: "itinerary", title: "Smart Planner", desc: "Plan your journey", icon: Route, color: "green" },
+                  { id: "ai-recommendations", title: "AI Recommendations", desc: "Discover hidden gems", icon: Sparkles, color: "purple" },
+                  { id: "budget", title: "Budget Tracker", desc: "Manage expenses", icon: Wallet, color: "orange" },
+                  { id: "analytics", title: "Travel Analytics", desc: "Track your journeys", icon: TrendingUp, color: "pink" },
+                  { id: "alerts", title: "Local Alerts", desc: "Stay informed", icon: Bell, color: "red" }
+                ].map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <Card 
+                      key={item.id}
+                      className="p-6 hover:shadow-lg transition-all duration-300 cursor-pointer group hover:scale-105 border-border/50"
+                      onClick={() => setActiveSection(item.id)}
+                    >
+                      <div className="text-center">
+                        <div className={`w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-${item.color}-500/10 to-${item.color}-600/10 flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                          <Icon className={`h-8 w-8 text-${item.color}-600`} />
+                        </div>
+                        <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors">
+                          {item.title}
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
+                          {item.desc}
+                        </p>
+                      </div>
+                    </Card>
+                  );
+                })}
+              </div>
+
+              {/* Navigation Options */}
+              <div className="mt-12 space-y-4">
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Button 
+                    onClick={() => navigate("/")} 
+                    variant="outline"
+                    className="px-8 py-3 text-lg hover:scale-105 transition-transform"
+                  >
+                    ← Back to Home Page
+                  </Button>
+                  <Button 
+                    onClick={() => navigate("/login")} 
+                    className="px-8 py-3 text-lg hover:scale-105 transition-transform"
+                  >
+                    Access Full Features →
+                  </Button>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Sign in to unlock personalized travel planning and analytics
+                </p>
+              </div>
+            </div>
           </div>
         );
       case "advisory":
-        return <TravelAdvisoryDashboard destination="Paris" />;
+        return (
+          <div className="animate-fade-in">
+            <TravelAdvisoryDashboard destination="Paris" />
+          </div>
+        );
       case "itinerary":
-        return <SmartItineraryPlanner />;
+        return (
+          <div className="animate-fade-in">
+            <SmartItineraryPlanner />
+          </div>
+        );
       case "ai-recommendations":
-        return <AITravelRecommendations />;
+        return (
+          <div className="animate-fade-in">
+            <AITravelRecommendations />
+          </div>
+        );
       case "profile":
-        return <TravelProfileManager />;
+        return (
+          <div className="animate-fade-in">
+            <TravelProfileManager />
+          </div>
+        );
       case "budget":
-        return <BudgetTracker />;
+        return (
+          <div className="animate-fade-in">
+            <BudgetTracker />
+          </div>
+        );
       case "analytics":
-        return <TravelAnalytics />;
+        return (
+          <div className="animate-fade-in">
+            <TravelAnalytics />
+          </div>
+        );
       case "offline":
-        return <OfflineMode />;
+        return (
+          <div className="animate-fade-in">
+            <OfflineMode />
+          </div>
+        );
       case "social":
-        return <SocialSharing />;
+        return (
+          <div className="animate-fade-in">
+            <SocialSharing />
+          </div>
+        );
       case "alerts":
-        return <LocalAlerts />;
+        return (
+          <div className="animate-fade-in">
+            <LocalAlerts />
+          </div>
+        );
       default:
-        return <div>Select a section from the sidebar</div>;
+        return (
+          <div className="text-center py-12">
+            <p className="text-muted-foreground">Select a feature from the sidebar to get started</p>
+          </div>
+        );
     }
   };
 
@@ -146,17 +265,17 @@ export const NavigationDashboard = () => {
 
   return (
     <SidebarProvider defaultOpen={false}>
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-blue-50 flex w-full">
+      <div className="min-h-screen bg-gradient-to-br from-orange-50/50 via-white to-blue-50/50 flex w-full">
         <AppSidebar activeSection={activeSection} setActiveSection={setActiveSection} />
         
         <div className="flex-1 flex flex-col overflow-hidden">
           {/* Header with Sidebar Trigger */}
-          <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200 px-4 sm:px-6 py-4">
-            <div className="flex items-center justify-between">
+          <header className="bg-white/90 backdrop-blur-md border-b border-border/30 px-4 sm:px-6 py-4 shadow-sm">
+            <div className="flex items-center justify-between max-w-7xl mx-auto">
               <div className="flex items-center gap-2 sm:gap-4">
-                <SidebarTrigger className="hover:bg-primary/10" />
+                <SidebarTrigger className="hover:bg-primary/10 transition-colors rounded-lg p-2" />
                 <div className="min-w-0 flex-1">
-                  <h2 className="text-lg sm:text-2xl font-display font-bold text-gray-900 truncate">
+                  <h2 className="text-lg sm:text-2xl font-display font-bold bg-gradient-to-r from-primary to-orange-500 bg-clip-text text-transparent truncate">
                     {currentItem?.label || "Navigation Hub"}
                   </h2>
                   <p className="text-xs sm:text-sm text-muted-foreground hidden sm:block">
@@ -164,9 +283,9 @@ export const NavigationDashboard = () => {
                   </p>
                 </div>
               </div>
-              <div className="hidden sm:flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                <span className="text-sm text-muted-foreground">
+              <div className="hidden sm:flex items-center gap-3 bg-green-50 px-3 py-1.5 rounded-full">
+                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                <span className="text-sm text-green-700 font-medium">
                   Connected
                 </span>
               </div>
@@ -174,9 +293,13 @@ export const NavigationDashboard = () => {
           </header>
 
           {/* Main Content */}
-          <main className="flex-1 overflow-y-auto p-4 sm:p-6">
-            <div className="max-w-7xl mx-auto">
-              {renderContent()}
+          <main className="flex-1 overflow-y-auto">
+            <div className="min-h-full flex items-start justify-center p-4 sm:p-6 lg:p-8">
+              <div className="w-full max-w-7xl">
+                <div key={activeSection} className="animate-fade-in">
+                  {renderContent()}
+                </div>
+              </div>
             </div>
           </main>
         </div>
