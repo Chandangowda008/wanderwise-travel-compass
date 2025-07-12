@@ -1,9 +1,10 @@
 
 import { useState } from "react";
-import { Search, MapPin, Sparkles, Menu, X, Navigation, Compass, Globe, Heart, TrendingUp, Clock, Users } from "lucide-react";
+import { Search, MapPin, Sparkles, Menu, X, Navigation, Compass, Globe, Heart, TrendingUp, Clock, Users, User, Settings, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 interface SearchHeaderProps {
@@ -46,71 +47,58 @@ export const SearchHeader = ({ onSearch, onNavigationToggle, onNavigateToFeature
 
   const popularCities = ["Paris", "Tokyo", "New York", "Barcelona", "Rome"];
 
+  const profileFeatures = [
+    { icon: User, label: "My Profile", description: "View and edit your profile", action: () => handleFeatureClick("profile") },
+    { icon: Heart, label: "Liked Posts", description: "Posts you've liked", action: () => handleFeatureClick("liked-posts") },
+    { icon: Settings, label: "Settings", description: "App preferences and settings", action: () => handleFeatureClick("settings") },
+  ];
+
   const navigationFeatures = [
-    { 
-      icon: Compass, 
-      label: "Navigation Hub", 
-      description: "Access all navigation features", 
-      action: () => handleNavigationClick(),
-      feature: "navigation"
-    },
-    { 
-      icon: Globe, 
-      label: "Interactive Map", 
-      description: "Explore destinations visually", 
-      action: () => handleFeatureClick("interactive-map"),
-      feature: "interactive-map"
-    },
-    { 
-      icon: Heart, 
-      label: "Saved Places", 
-      description: "Your favorite destinations", 
-      action: () => handleFeatureClick("saved-places"),
-      feature: "saved-places"
-    },
-    { 
-      icon: TrendingUp, 
-      label: "Travel Analytics", 
-      description: "View your travel insights", 
-      action: () => handleFeatureClick("travel-analytics"),
-      feature: "travel-analytics"
-    },
-    { 
-      icon: Clock, 
-      label: "Itinerary Planner", 
-      description: "Plan your perfect trip", 
-      action: () => handleFeatureClick("itinerary-planner"),
-      feature: "itinerary-planner"
-    },
-    { 
-      icon: Users, 
-      label: "Social Sharing", 
-      description: "Share your adventures", 
-      action: () => handleFeatureClick("social-sharing"),
-      feature: "social-sharing"
-    },
+    { icon: Compass, label: "Navigation Hub", description: "Access all navigation features", action: () => handleNavigationClick(), feature: "navigation" },
+    { icon: Globe, label: "Interactive Map", description: "Explore destinations visually", action: () => handleFeatureClick("interactive-map"), feature: "interactive-map" },
+    { icon: Heart, label: "Saved Places", description: "Your favorite destinations", action: () => handleFeatureClick("saved-places"), feature: "saved-places" },
+    { icon: TrendingUp, label: "Travel Analytics", description: "View your travel insights", action: () => handleFeatureClick("travel-analytics"), feature: "travel-analytics" },
+    { icon: Clock, label: "Itinerary Planner", description: "Plan your perfect trip", action: () => handleFeatureClick("itinerary-planner"), feature: "itinerary-planner" },
+    { icon: Users, label: "Social Sharing", description: "Share your adventures", action: () => handleFeatureClick("social-sharing"), feature: "social-sharing" },
   ];
 
   return (
     <header className="glass-effect sticky top-0 z-50 px-4 py-3 shadow-soft">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
-        {/* Logo Section */}
-        <div className="flex items-center space-x-3 group">
-          <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-red-400 rounded-xl blur-md opacity-30 group-hover:opacity-50 transition-opacity"></div>
-            <div className="relative bg-white rounded-xl p-2 shadow-soft">
-              <MapPin className="h-6 w-6 md:h-8 md:w-8 text-gradient" />
+        {/* Profile Icon (Left) */}
+        <div className="flex items-center space-x-3">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => handleFeatureClick("profile")}
+            className="p-2 hover:bg-orange-50"
+          >
+            <Avatar className="h-8 w-8">
+              <AvatarImage src="/api/placeholder/32/32" alt="Profile" />
+              <AvatarFallback className="bg-gradient-to-br from-orange-100 to-red-100 text-orange-600 text-sm">
+                A
+              </AvatarFallback>
+            </Avatar>
+          </Button>
+          
+          {/* Logo Section */}
+          <div className="flex items-center space-x-3 group">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-red-400 rounded-xl blur-md opacity-30 group-hover:opacity-50 transition-opacity"></div>
+              <div className="relative bg-white rounded-xl p-2 shadow-soft">
+                <MapPin className="h-6 w-6 md:h-8 md:w-8 text-gradient" />
+              </div>
             </div>
-          </div>
-          <div className="hidden sm:block">
-            <h1 className="text-xl md:text-2xl font-display font-bold text-gradient">WanderWise</h1>
-            <div className="flex items-center gap-1">
-              <Sparkles className="h-3 w-3 text-orange-500" />
-              <span className="text-xs text-muted-foreground">AI Travel Companion</span>
+            <div className="hidden sm:block">
+              <h1 className="text-xl md:text-2xl font-display font-bold text-gradient">WanderWise</h1>
+              <div className="flex items-center gap-1">
+                <Sparkles className="h-3 w-3 text-orange-500" />
+                <span className="text-xs text-muted-foreground">AI Travel Companion</span>
+              </div>
             </div>
-          </div>
-          <div className="sm:hidden">
-            <h1 className="text-lg font-display font-bold text-gradient">WanderWise</h1>
+            <div className="sm:hidden">
+              <h1 className="text-lg font-display font-bold text-gradient">WanderWise</h1>
+            </div>
           </div>
         </div>
         
@@ -206,6 +194,34 @@ export const SearchHeader = ({ onSearch, onNavigationToggle, onNavigateToFeature
                   </div>
                 </div>
 
+                {/* Profile Features */}
+                <div className="mb-6">
+                  <h3 className="text-sm font-medium text-muted-foreground mb-3 flex items-center gap-2">
+                    <User className="h-4 w-4" />
+                    Profile
+                  </h3>
+                  <div className="space-y-2">
+                    {profileFeatures.map((feature, index) => (
+                      <Button
+                        key={index}
+                        variant="ghost"
+                        onClick={feature.action}
+                        className="w-full justify-start text-left p-3 rounded-lg hover:bg-orange-50 hover:text-orange-700 transition-colors group"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="bg-gradient-to-br from-blue-100 to-cyan-100 p-2 rounded-lg group-hover:bg-gradient-to-br group-hover:from-blue-200 group-hover:to-cyan-200 transition-colors">
+                            <feature.icon className="h-4 w-4 text-blue-600" />
+                          </div>
+                          <div className="flex-1 text-left">
+                            <div className="font-medium text-sm">{feature.label}</div>
+                            <div className="text-xs text-muted-foreground">{feature.description}</div>
+                          </div>
+                        </div>
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+
                 {/* Navigation Features */}
                 <div className="flex-1">
                   <h3 className="text-sm font-medium text-muted-foreground mb-3 flex items-center gap-2">
@@ -234,36 +250,19 @@ export const SearchHeader = ({ onSearch, onNavigationToggle, onNavigateToFeature
                   </div>
                 </div>
 
-                {/* Quick Actions */}
+                {/* Sign Out */}
                 <div className="mt-6 pt-6 border-t border-gray-200">
-                  <h3 className="text-sm font-medium text-muted-foreground mb-3 flex items-center gap-2">
-                    <Sparkles className="h-4 w-4" />
-                    Quick Actions
-                  </h3>
-                  <div className="space-y-2">
-                    <Button 
-                      variant="ghost" 
-                      className="w-full justify-start text-left p-3 rounded-lg hover:bg-orange-50"
-                      onClick={() => handleFeatureClick("my-trips")}
-                    >
-                      <MapPin className="h-4 w-4 mr-3" />
-                      <div className="flex-1 text-left">
-                        <div className="font-medium text-sm">My Trips</div>
-                        <div className="text-xs text-muted-foreground">View your travel history</div>
-                      </div>
-                    </Button>
-                    <Button 
-                      variant="ghost" 
-                      className="w-full justify-start text-left p-3 rounded-lg hover:bg-orange-50"
-                      onClick={() => handleFeatureClick("saved-places")}
-                    >
-                      <Heart className="h-4 w-4 mr-3" />
-                      <div className="flex-1 text-left">
-                        <div className="font-medium text-sm">Saved Places</div>
-                        <div className="text-xs text-muted-foreground">Your favorite destinations</div>
-                      </div>
-                    </Button>
-                  </div>
+                  <Button 
+                    variant="ghost" 
+                    className="w-full justify-start text-left p-3 rounded-lg text-red-600 hover:text-red-700 hover:bg-red-50"
+                    onClick={() => handleFeatureClick("sign-out")}
+                  >
+                    <LogOut className="h-4 w-4 mr-3" />
+                    <div className="flex-1 text-left">
+                      <div className="font-medium text-sm">Sign Out</div>
+                      <div className="text-xs text-muted-foreground">Log out of your account</div>
+                    </div>
+                  </Button>
                 </div>
               </div>
             </SheetContent>
