@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { ArrowLeft, Star, Users, MapPin, Clock, DollarSign } from "lucide-react";
+import { ArrowLeft, Star, Users, MapPin, Clock, DollarSign, Sparkles, TrendingUp, Heart, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -130,84 +130,130 @@ export const RecommendationResults = ({ city, onNewSearch }: RecommendationResul
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary mx-auto mb-4"></div>
-          <h2 className="text-2xl font-display font-semibold mb-2">Analyzing {city}...</h2>
-          <p className="text-muted-foreground">Finding the best and worst spots for you</p>
+      <div className="min-h-screen flex items-center justify-center relative">
+        {/* Background decorative elements */}
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-br from-orange-200/20 to-red-200/20 rounded-full blur-3xl floating-animation"></div>
+          <div className="absolute top-3/4 right-1/4 w-48 h-48 bg-gradient-to-br from-blue-200/20 to-cyan-200/20 rounded-full blur-2xl floating-animation" style={{ animationDelay: '2s' }}></div>
+        </div>
+        
+        <div className="text-center animate-fade-in-up">
+          <div className="relative mb-6">
+            <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-red-400 rounded-full blur-lg opacity-30"></div>
+            <div className="relative bg-gradient-to-br from-orange-100 to-red-100 p-6 rounded-full">
+              <Loader2 className="h-12 w-12 text-gradient animate-spin" />
+            </div>
+          </div>
+          <h2 className="text-3xl font-display font-bold mb-3 text-gray-900">
+            Analyzing <span className="text-gradient">{city}</span>...
+          </h2>
+          <p className="text-lg text-muted-foreground">Finding the best and worst spots for you</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="px-4 py-8 max-w-7xl mx-auto">
-      <div className="flex items-center mb-8">
-        <Button 
-          variant="ghost" 
-          onClick={onNewSearch}
-          className="mr-4 hover:bg-white/80"
-        >
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          New Search
-        </Button>
-        <div>
-          <h1 className="text-3xl font-display font-bold">
-            Recommendations for <span className="text-primary">{city}</span>
-          </h1>
-          <p className="text-muted-foreground">Smart analysis of local dining options</p>
-        </div>
+    <div className="relative min-h-screen">
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute top-20 left-10 w-64 h-64 bg-gradient-to-br from-orange-200/20 to-red-200/20 rounded-full blur-3xl floating-animation"></div>
+        <div className="absolute bottom-20 right-10 w-48 h-48 bg-gradient-to-br from-blue-200/20 to-cyan-200/20 rounded-full blur-2xl floating-animation" style={{ animationDelay: '3s' }}></div>
       </div>
 
-      <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="grid w-full grid-cols-3 mb-8">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="avoid">Avoid (Tourist Traps)</TabsTrigger>
-          <TabsTrigger value="visit">Visit (Hidden Gems)</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="overview" className="grid lg:grid-cols-2 gap-8">
+      <div className="px-4 py-12 max-w-7xl mx-auto animate-fade-in-up">
+        <div className="flex items-center mb-10">
+          <Button 
+            variant="ghost" 
+            onClick={onNewSearch}
+            className="mr-6 hover:bg-white/80 glass-effect rounded-xl"
+          >
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            New Search
+          </Button>
           <div>
-            <div className="flex items-center mb-6">
-              <Badge variant="destructive" className="mr-3">Avoid</Badge>
-              <h2 className="text-2xl font-display font-semibold">Potential Tourist Traps</h2>
+            <h1 className="text-4xl md:text-5xl font-display font-bold mb-2">
+              Recommendations for <span className="text-gradient">{city}</span>
+            </h1>
+            <p className="text-lg text-muted-foreground">Smart analysis of local dining options</p>
+          </div>
+        </div>
+
+        <Tabs defaultValue="overview" className="w-full">
+          <TabsList className="grid w-full grid-cols-3 mb-10 glass-effect p-1">
+            <TabsTrigger value="overview" className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-soft transition-all duration-300">
+              <Sparkles className="h-4 w-4" />
+              Overview
+            </TabsTrigger>
+            <TabsTrigger value="avoid" className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-soft transition-all duration-300">
+              <TrendingUp className="h-4 w-4" />
+              Avoid (Tourist Traps)
+            </TabsTrigger>
+            <TabsTrigger value="visit" className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-soft transition-all duration-300">
+              <Heart className="h-4 w-4" />
+              Visit (Hidden Gems)
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="overview" className="grid lg:grid-cols-2 gap-10">
+            <div className="animate-fade-in-up">
+              <div className="flex items-center mb-8">
+                <div className="relative mr-4">
+                  <div className="absolute inset-0 bg-gradient-to-r from-red-400 to-red-500 rounded-xl blur-md opacity-30"></div>
+                  <div className="relative bg-gradient-to-br from-red-100 to-red-200 p-3 rounded-xl">
+                    <TrendingUp className="h-6 w-6 text-red-600" />
+                  </div>
+                </div>
+                <div>
+                  <Badge variant="destructive" className="mb-2">Avoid</Badge>
+                  <h2 className="text-3xl font-display font-semibold text-gray-900">Potential Tourist Traps</h2>
+                </div>
+              </div>
+              <div className="space-y-6">
+                {touristTraps.slice(0, 3).map((restaurant, index) => (
+                  <RestaurantCard key={restaurant.id} restaurant={restaurant} compact style={{ animationDelay: `${index * 0.1}s` }} />
+                ))}
+              </div>
             </div>
-            <div className="space-y-4">
-              {touristTraps.slice(0, 3).map((restaurant) => (
-                <RestaurantCard key={restaurant.id} restaurant={restaurant} compact />
+
+            <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+              <div className="flex items-center mb-8">
+                <div className="relative mr-4">
+                  <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-green-500 rounded-xl blur-md opacity-30"></div>
+                  <div className="relative bg-gradient-to-br from-green-100 to-green-200 p-3 rounded-xl">
+                    <Heart className="h-6 w-6 text-green-600" />
+                  </div>
+                </div>
+                <div>
+                  <Badge className="bg-green-500 hover:bg-green-600 mb-2">Visit</Badge>
+                  <h2 className="text-3xl font-display font-semibold text-gray-900">Hidden Gems</h2>
+                </div>
+              </div>
+              <div className="space-y-6">
+                {hiddenGems.slice(0, 3).map((restaurant, index) => (
+                  <RestaurantCard key={restaurant.id} restaurant={restaurant} compact style={{ animationDelay: `${index * 0.1}s` }} />
+                ))}
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="avoid" className="animate-fade-in-up">
+            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
+              {touristTraps.map((restaurant, index) => (
+                <RestaurantCard key={restaurant.id} restaurant={restaurant} style={{ animationDelay: `${index * 0.1}s` }} />
               ))}
             </div>
-          </div>
+          </TabsContent>
 
-          <div>
-            <div className="flex items-center mb-6">
-              <Badge className="bg-green-500 hover:bg-green-600 mr-3">Visit</Badge>
-              <h2 className="text-2xl font-display font-semibold">Hidden Gems</h2>
-            </div>
-            <div className="space-y-4">
-              {hiddenGems.slice(0, 3).map((restaurant) => (
-                <RestaurantCard key={restaurant.id} restaurant={restaurant} compact />
+          <TabsContent value="visit" className="animate-fade-in-up">
+            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
+              {hiddenGems.map((restaurant, index) => (
+                <RestaurantCard key={restaurant.id} restaurant={restaurant} style={{ animationDelay: `${index * 0.1}s` }} />
               ))}
             </div>
-          </div>
-        </TabsContent>
-
-        <TabsContent value="avoid">
-          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-            {touristTraps.map((restaurant) => (
-              <RestaurantCard key={restaurant.id} restaurant={restaurant} />
-            ))}
-          </div>
-        </TabsContent>
-
-        <TabsContent value="visit">
-          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-            {hiddenGems.map((restaurant) => (
-              <RestaurantCard key={restaurant.id} restaurant={restaurant} />
-            ))}
-          </div>
-        </TabsContent>
-      </Tabs>
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
 };
@@ -215,57 +261,59 @@ export const RecommendationResults = ({ city, onNewSearch }: RecommendationResul
 interface RestaurantCardProps {
   restaurant: Restaurant;
   compact?: boolean;
+  style?: React.CSSProperties;
 }
 
-const RestaurantCard = ({ restaurant, compact = false }: RestaurantCardProps) => {
+const RestaurantCard = ({ restaurant, compact = false, style }: RestaurantCardProps) => {
   return (
-    <Card className={`overflow-hidden hover:shadow-lg transition-shadow ${compact ? 'p-4' : 'p-0'}`}>
+    <Card className={`glass-card overflow-hidden hover:scale-105 transition-all duration-300 animate-fade-in-up ${compact ? 'p-6' : 'p-0'}`} style={style}>
       {!compact && (
-        <div className="h-48 bg-gradient-to-r from-gray-200 to-gray-300 flex items-center justify-center">
-          <span className="text-gray-500">Restaurant Image</span>
+        <div className="h-48 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-orange-200/20 to-red-200/20"></div>
+          <span className="text-gray-500 relative z-10">Restaurant Image</span>
         </div>
       )}
       
       <div className={compact ? '' : 'p-6'}>
-        <div className="flex items-start justify-between mb-3">
+        <div className="flex items-start justify-between mb-4">
           <div className="flex-1">
-            <h3 className="font-display font-semibold text-lg mb-1">{restaurant.name}</h3>
-            <p className="text-sm text-muted-foreground mb-2">{restaurant.cuisine}</p>
+            <h3 className="font-display font-semibold text-xl mb-2 text-gray-900">{restaurant.name}</h3>
+            <p className="text-sm text-muted-foreground mb-3">{restaurant.cuisine}</p>
           </div>
           <Badge 
             variant={restaurant.authenticity === "tourist-trap" ? "destructive" : "default"}
-            className={restaurant.authenticity === "hidden-gem" ? "bg-green-500 hover:bg-green-600" : ""}
+            className={`${restaurant.authenticity === "hidden-gem" ? "bg-green-500 hover:bg-green-600" : ""} shadow-soft`}
           >
             {restaurant.authenticity === "tourist-trap" ? "Avoid" : "Visit"}
           </Badge>
         </div>
 
-        <div className="flex items-center space-x-4 mb-3 text-sm">
-          <div className="flex items-center">
+        <div className="flex items-center space-x-4 mb-4 text-sm">
+          <div className="flex items-center bg-yellow-50 px-3 py-1 rounded-lg">
             <Star className="h-4 w-4 fill-yellow-400 text-yellow-400 mr-1" />
-            <span className="font-medium">{restaurant.rating}</span>
+            <span className="font-medium text-yellow-700">{restaurant.rating}</span>
           </div>
-          <div className="flex items-center text-muted-foreground">
+          <div className="flex items-center text-muted-foreground bg-gray-50 px-3 py-1 rounded-lg">
             <Users className="h-4 w-4 mr-1" />
             <span>{restaurant.reviewCount} reviews</span>
           </div>
-          <div className="flex items-center text-muted-foreground">
+          <div className="flex items-center text-muted-foreground bg-gray-50 px-3 py-1 rounded-lg">
             <DollarSign className="h-4 w-4 mr-1" />
             <span>{restaurant.priceRange}</span>
           </div>
         </div>
 
         {restaurant.waitTime && (
-          <div className="flex items-center text-sm text-muted-foreground mb-3">
+          <div className="flex items-center text-sm text-muted-foreground mb-4 bg-blue-50 px-3 py-1 rounded-lg w-fit">
             <Clock className="h-4 w-4 mr-1" />
             <span>Wait: {restaurant.waitTime}</span>
           </div>
         )}
 
-        <p className="text-sm text-muted-foreground mb-3">{restaurant.description}</p>
+        <p className="text-sm text-muted-foreground mb-4 leading-relaxed">{restaurant.description}</p>
 
-        <div className="flex items-center text-sm text-muted-foreground">
-          <MapPin className="h-4 w-4 mr-1" />
+        <div className="flex items-center text-sm text-muted-foreground bg-gray-50 px-3 py-2 rounded-lg">
+          <MapPin className="h-4 w-4 mr-2 text-orange-500" />
           <span>{restaurant.address}</span>
         </div>
       </div>
