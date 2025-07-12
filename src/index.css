@@ -1,9 +1,9 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap');
 
 @layer base {
   :root {
@@ -172,6 +172,108 @@
       width: 100vw !important;
       max-width: 100vw !important;
     }
+  }
+
+  /* Custom scrollbar styles for navigation hub */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: #d1d5db #f3f4f6;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: #f3f4f6;
+    border-radius: 3px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 3px;
+    transition: background-color 0.2s ease;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+  }
+
+  .scrollbar-thumb-gray-300::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+  }
+
+  .scrollbar-track-gray-100::-webkit-scrollbar-track {
+    background: #f3f4f6;
+  }
+
+  /* Universal interaction styles for PC and Mobile */
+  .universal-interactive {
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+
+  .universal-interactive:hover {
+    transform: scale(1.02);
+  }
+
+  .universal-interactive:active {
+    transform: scale(0.98);
+  }
+
+  /* Enhanced button styles for both PC and Mobile */
+  .enhanced-button {
+    @apply transition-all duration-200;
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .enhanced-button:hover {
+    @apply scale-105;
+  }
+
+  .enhanced-button:active {
+    @apply scale-95;
+  }
+
+  /* PC-specific enhancements */
+  @media (min-width: 768px) {
+    .pc-hover-lift {
+      transition: all 0.3s ease;
+    }
+
+    .pc-hover-lift:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .pc-hover-glow {
+      transition: all 0.3s ease;
+    }
+
+    .pc-hover-glow:hover {
+      box-shadow: 0 0 20px rgba(251, 146, 60, 0.3);
+    }
+  }
+
+  /* Universal sheet styles */
+  .universal-sheet {
+    @apply transition-all duration-300;
+  }
+
+  .universal-sheet-content {
+    @apply transition-transform duration-300;
+  }
+
+  /* Enhanced focus styles for accessibility */
+  .enhanced-focus:focus {
+    outline: 2px solid #f97316;
+    outline-offset: 2px;
+  }
+
+  .enhanced-focus:focus-visible {
+    outline: 2px solid #f97316;
+    outline-offset: 2px;
   }
 
   /* Mobile card improvements */

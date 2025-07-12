@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Navigation, Route, Sparkles, User, Wallet, TrendingUp, WifiOff, Share2, Bell, Home } from "lucide-react";
+import { Navigation, Route, Sparkles, User, Wallet, TrendingUp, WifiOff, Share2, Bell, Home, Settings, Globe } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { 
@@ -26,9 +26,12 @@ import { TravelAnalytics } from "./TravelAnalytics";
 import { OfflineMode } from "./OfflineMode";
 import { SocialSharing } from "./SocialSharing";
 import { LocalAlerts } from "./LocalAlerts";
+import { AppSettings } from "./AppSettings";
+import { GlobalExplorer } from "./GlobalExplorer";
 
 const navigationItems = [
   { id: "home", label: "Home", icon: Home },
+  { id: "global-explorer", label: "Global Explorer", icon: Globe },
   { id: "advisory", label: "Travel Advisory", icon: Navigation },
   { id: "itinerary", label: "Smart Planner", icon: Route },
   { id: "ai-recommendations", label: "AI Recommendations", icon: Sparkles },
@@ -38,6 +41,7 @@ const navigationItems = [
   { id: "offline", label: "Offline Mode", icon: WifiOff },
   { id: "social", label: "Social Sharing", icon: Share2 },
   { id: "alerts", label: "Local Alerts", icon: Bell },
+  { id: "settings", label: "App Settings", icon: Settings },
 ];
 
 function AppSidebar({ activeSection, setActiveSection }: { activeSection: string; setActiveSection: (section: string) => void }) {
@@ -144,12 +148,12 @@ export const NavigationDashboard = () => {
               {/* Quick Action Cards */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mt-12">
                 {[
+                  { id: "global-explorer", title: "Global Explorer", desc: "Interactive world map", icon: Globe, color: "cyan" },
                   { id: "advisory", title: "Travel Advisory", desc: "Check safety & alerts", icon: Navigation, color: "blue" },
                   { id: "itinerary", title: "Smart Planner", desc: "Plan your journey", icon: Route, color: "green" },
                   { id: "ai-recommendations", title: "AI Recommendations", desc: "Discover hidden gems", icon: Sparkles, color: "purple" },
                   { id: "budget", title: "Budget Tracker", desc: "Manage expenses", icon: Wallet, color: "orange" },
-                  { id: "analytics", title: "Travel Analytics", desc: "Track your journeys", icon: TrendingUp, color: "pink" },
-                  { id: "alerts", title: "Local Alerts", desc: "Stay informed", icon: Bell, color: "red" }
+                  { id: "analytics", title: "Travel Analytics", desc: "Track your journeys", icon: TrendingUp, color: "pink" }
                 ].map((item) => {
                   const Icon = item.icon;
                   return (
@@ -250,6 +254,18 @@ export const NavigationDashboard = () => {
         return (
           <div className="animate-fade-in">
             <LocalAlerts />
+          </div>
+        );
+      case "global-explorer":
+        return (
+          <div className="animate-fade-in">
+            <GlobalExplorer />
+          </div>
+        );
+      case "settings":
+        return (
+          <div className="animate-fade-in">
+            <AppSettings />
           </div>
         );
       default:

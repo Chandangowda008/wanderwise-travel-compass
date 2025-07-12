@@ -11,36 +11,36 @@ import { SmartItineraryPlanner } from "@/components/SmartItineraryPlanner";
 import { SocialSharing } from "@/components/SocialSharing";
 import { ProfileManager } from "@/components/ProfileManager";
 import TravelFeed from "@/components/TravelFeed";
-import { WorldDestinations } from "@/components/WorldDestinations";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { GlobalExplorer } from "@/components/GlobalExplorer";
 
 const Index = () => {
   const [searchCity, setSearchCity] = useState<string>("");
   const [showResults, setShowResults] = useState<boolean>(false);
-  const [showNavigation, setShowNavigation] = useState<boolean>(false);
   const [currentFeature, setCurrentFeature] = useState<string>("");
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true); // Set to true for demo
-  const isMobile = useIsMobile();
 
   const handleSearch = (city: string) => {
     console.log("Searching for city:", city);
     setSearchCity(city);
     setShowResults(true);
-    setShowNavigation(false);
     setCurrentFeature("");
   };
 
   const handleNavigationToggle = () => {
-    setShowNavigation(!showNavigation);
+    // Navigate directly to Navigation Dashboard
+    setCurrentFeature("navigation");
     setShowResults(false);
-    setCurrentFeature("");
   };
 
   const handleNavigateToFeature = (feature: string) => {
     console.log("Navigating to feature:", feature);
-    setCurrentFeature(feature);
-    setShowResults(false);
-    setShowNavigation(false);
+    if (feature === "home") {
+      setCurrentFeature("");
+      setShowResults(false);
+    } else {
+      setCurrentFeature(feature);
+      setShowResults(false);
+    }
   };
 
   // Render specific feature components
@@ -58,6 +58,15 @@ const Index = () => {
         return <SocialSharing />;
       case "profile":
         return <ProfileManager />;
+      case "edit-photo":
+        return (
+          <div className="min-h-screen flex items-center justify-center">
+            <div className="text-center">
+              <h2 className="text-2xl font-bold mb-4">Edit Photo</h2>
+              <p className="text-muted-foreground">Upload and edit your profile picture</p>
+            </div>
+          </div>
+        );
       case "liked-posts":
         return (
           <div className="min-h-screen flex items-center justify-center">
@@ -80,7 +89,7 @@ const Index = () => {
         setIsLoggedIn(false);
         return null;
       case "saved-places":
-        return <WorldDestinations />;
+        return <GlobalExplorer />;
       default:
         return null;
     }
@@ -106,10 +115,7 @@ const Index = () => {
     );
   }
 
-  if (showNavigation) {
-    return <NavigationDashboard />;
-  }
-
+  // If a specific feature is selected, show that feature
   if (currentFeature) {
     return (
       <div className="min-h-screen relative overflow-hidden">
@@ -127,6 +133,7 @@ const Index = () => {
           onSearch={handleSearch} 
           onNavigationToggle={handleNavigationToggle}
           onNavigateToFeature={handleNavigateToFeature}
+          currentFeature={currentFeature}
         />
         
         <div className="animate-scale-in">
@@ -153,6 +160,7 @@ const Index = () => {
         onSearch={handleSearch} 
         onNavigationToggle={handleNavigationToggle}
         onNavigateToFeature={handleNavigateToFeature}
+        currentFeature={currentFeature}
       />
       
       {!showResults ? (
