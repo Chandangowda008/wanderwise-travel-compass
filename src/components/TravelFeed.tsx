@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { Heart, MessageCircle, Share2, Bookmark, MoreHorizontal, MapPin, Calendar, User, Globe } from "lucide-react";
+import { Heart, MessageCircle, Share2, Bookmark, MoreHorizontal, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
 
 interface TravelPost {
   id: string;
@@ -25,6 +27,17 @@ interface TravelPost {
   tags: string[];
 }
 
+interface Comment {
+  id: string;
+  user: string;
+  text: string;
+}
+
+const mockComments: Comment[] = [
+  { id: "1", user: "emma_wanderlust", text: "Wow, looks amazing!" },
+  { id: "2", user: "mike_explorer", text: "Adding this to my bucket list." },
+];
+
 const TravelFeed = () => {
   const [posts, setPosts] = useState<TravelPost[]>([
     {
@@ -40,7 +53,7 @@ const TravelFeed = () => {
       content: "Just watched the most incredible sunset from Oia! The white buildings against the golden sky are absolutely magical. This place truly lives up to its reputation. 🌅 #Santorini #Greece #Travel",
       image: "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=400&h=300&fit=crop",
       likes: 1247,
-      comments: 89,
+      comments: 2,
       shares: 23,
       isLiked: false,
       isSaved: false,
@@ -59,7 +72,7 @@ const TravelFeed = () => {
       content: "Exploring the vibrant streets of Shibuya! The energy here is incredible. Found this amazing ramen spot that locals recommended. Best bowl I've ever had! 🍜 #Tokyo #Japan #Ramen",
       image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop",
       likes: 892,
-      comments: 156,
+      comments: 0,
       shares: 45,
       isLiked: true,
       isSaved: true,
@@ -78,7 +91,7 @@ const TravelFeed = () => {
       content: "Gaudi's masterpiece - La Sagrada Familia! The architecture is mind-blowing. Every detail tells a story. Can't believe this has been under construction for over 140 years! ⛪ #Barcelona #Gaudi #Architecture",
       image: "https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=400&h=300&fit=crop",
       likes: 2156,
-      comments: 234,
+      comments: 0,
       shares: 67,
       isLiked: false,
       isSaved: false,
@@ -97,13 +110,19 @@ const TravelFeed = () => {
       content: "Morning yoga session with this view! The rice terraces of Tegalalang are absolutely breathtaking. This is what peace looks like. 🧘‍♀️🌾 #Bali #Yoga #RiceTerraces",
       image: "https://images.unsplash.com/photo-1539367628448-4bc5c9d17119?w=400&h=300&fit=crop",
       likes: 1678,
-      comments: 123,
+      comments: 0,
       shares: 34,
       isLiked: true,
       isSaved: false,
       tags: ["Bali", "Indonesia", "Yoga", "RiceTerraces"]
     }
   ]);
+
+  const [openComments, setOpenComments] = useState<{ [postId: string]: boolean }>({});
+  const [comments, setComments] = useState<{ [postId: string]: Comment[] }>({ "1": mockComments });
+  const [commentInput, setCommentInput] = useState<{ [postId: string]: string }>({});
+  const [shareDropdown, setShareDropdown] = useState<{ [postId: string]: boolean }>({});
+  const { toast } = useToast();
 
   const handleLike = (postId: string) => {
     setPosts(posts.map(post => {
@@ -128,6 +147,36 @@ const TravelFeed = () => {
       }
       return post;
     }));
+  };
+
+  const handleCommentToggle = (postId: string) => {
+    setOpenComments((prev) => ({ ...prev, [postId]: !prev[postId] }));
+  };
+
+  const handleCommentInput = (postId: string, value: string) => {
+    setCommentInput((prev) => ({ ...prev, [postId]: value }));
+  };
+
+  const handleAddComment = (postId: string) => {
+    const text = commentInput[postId]?.trim();
+    if (!text) return;
+    setComments((prev) => ({
+      ...prev,
+      [postId]: [...(prev[postId] || []), { id: Date.now().toString(), user: "you", text }],
+    }));
+    setCommentInput((prev) => ({ ...prev, [postId]: "" }));
+    setPosts(posts.map(post => post.id === postId ? { ...post, comments: post.comments + 1 } : post));
+  };
+
+  const handleShareToggle = (postId: string) => {
+    setShareDropdown((prev) => ({ ...prev, [postId]: !prev[postId] }));
+  };
+
+  const handleCopyLink = (postId: string) => {
+    navigator.clipboard.writeText(`https://wanderwise.app/post/${postId}`);
+    toast({ title: "Link copied!", description: "You can now share this post." });
+    setShareDropdown((prev) => ({ ...prev, [postId]: false }));
+    setPosts(posts.map(post => post.id === postId ? { ...post, shares: post.shares + 1 } : post));
   };
 
   const formatNumber = (num: number) => {
@@ -227,15 +276,45 @@ const TravelFeed = () => {
                     <span className="ml-1 text-sm">{formatNumber(post.likes)}</span>
                   </Button>
                   
-                  <Button variant="ghost" size="sm" className="p-2 hover:bg-blue-50">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="p-2 hover:bg-blue-50"
+                    onClick={() => handleCommentToggle(post.id)}
+                  >
                     <MessageCircle className="h-5 w-5 text-muted-foreground" />
                     <span className="ml-1 text-sm">{formatNumber(post.comments)}</span>
                   </Button>
                   
-                  <Button variant="ghost" size="sm" className="p-2 hover:bg-green-50">
-                    <Share2 className="h-5 w-5 text-muted-foreground" />
-                    <span className="ml-1 text-sm">{formatNumber(post.shares)}</span>
-                  </Button>
+                  <div className="relative inline-block">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="p-2 hover:bg-green-50"
+                      onClick={() => handleShareToggle(post.id)}
+                    >
+                      <Share2 className="h-5 w-5 text-muted-foreground" />
+                      <span className="ml-1 text-sm">{formatNumber(post.shares)}</span>
+                    </Button>
+                    {shareDropdown[post.id] && (
+                      <div className="absolute z-10 right-0 mt-2 w-40 bg-white rounded-lg shadow-lg border p-2 animate-fade-in">
+                        <Button
+                          variant="ghost"
+                          className="w-full justify-start text-left px-2 py-1 text-sm"
+                          onClick={() => handleCopyLink(post.id)}
+                        >
+                          Copy Link
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          className="w-full justify-start text-left px-2 py-1 text-sm"
+                          onClick={() => setShareDropdown((prev) => ({ ...prev, [post.id]: false }))}
+                        >
+                          Cancel
+                        </Button>
+                      </div>
+                    )}
+                  </div>
                 </div>
                 
                 <Button
@@ -247,6 +326,44 @@ const TravelFeed = () => {
                   <Bookmark className={`h-5 w-5 ${post.isSaved ? 'fill-current' : ''}`} />
                 </Button>
               </div>
+
+              {/* Comments Section */}
+              {openComments[post.id] && (
+                <div className="mt-4 border-t pt-4">
+                  <div className="mb-2 text-sm font-semibold text-muted-foreground">Comments</div>
+                  <div className="space-y-2 mb-2 max-h-32 overflow-y-auto">
+                    {(comments[post.id] || []).length === 0 && (
+                      <div className="text-xs text-muted-foreground">No comments yet. Be the first to comment!</div>
+                    )}
+                    {(comments[post.id] || []).map((c) => (
+                      <div key={c.id} className="flex items-center gap-2 text-sm">
+                        <span className="font-medium">@{c.user}</span>
+                        <span>{c.text}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="flex gap-2 mt-2">
+                    <Input
+                      type="text"
+                      placeholder="Add a comment..."
+                      value={commentInput[post.id] || ""}
+                      onChange={(e) => handleCommentInput(post.id, e.target.value)}
+                      className="flex-1"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") handleAddComment(post.id);
+                      }}
+                    />
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleAddComment(post.id)}
+                      disabled={!(commentInput[post.id]?.trim())}
+                    >
+                      Post
+                    </Button>
+                  </div>
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>
