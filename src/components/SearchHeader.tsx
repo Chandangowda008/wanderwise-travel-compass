@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Mountain, Sparkles, Menu, Navigation, Compass, Globe, Heart, TrendingUp, Clock, Users, User, Settings, LogOut, Camera, Edit3, Bookmark } from "lucide-react";
+import { Mountain, Sparkles, Menu, Navigation, Compass, Globe, MapPin, Heart, TrendingUp, Clock, Users, User, Settings, LogOut, Camera, Edit3, Bookmark } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -40,7 +40,8 @@ export const SearchHeader = ({ onSearch, onNavigationToggle, onNavigateToFeature
 
   const navigationFeatures = [
     { icon: Compass, label: "Navigation Hub", description: "Access all features", action: () => handleNavigationClick(), feature: "navigation" },
-    { icon: Globe, label: "Interactive Map", description: "Explore destinations", action: () => handleFeatureClick("interactive-map"), feature: "interactive-map" },
+    { icon: Globe, label: "World Destinations", description: "Explore global destinations", action: () => handleFeatureClick("saved-places"), feature: "saved-places" },
+    { icon: MapPin, label: "Interactive Map", description: "Explore destinations", action: () => handleFeatureClick("interactive-map"), feature: "interactive-map" },
     { icon: TrendingUp, label: "Travel Analytics", description: "View insights", action: () => handleFeatureClick("travel-analytics"), feature: "travel-analytics" },
     { icon: Clock, label: "Itinerary Planner", description: "Plan your trip", action: () => handleFeatureClick("itinerary-planner"), feature: "itinerary-planner" },
     { icon: Users, label: "Social Sharing", description: "Share adventures", action: () => handleFeatureClick("social-sharing"), feature: "social-sharing" },
