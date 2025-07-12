@@ -20,7 +20,7 @@ export const SearchHeader = ({ onSearch, onNavigationToggle }: SearchHeaderProps
     e.preventDefault();
     if (searchInput.trim()) {
       onSearch(searchInput.trim());
-      setIsSheetOpen(false); // Close mobile menu after search
+      setIsSheetOpen(false);
     }
   };
 
@@ -96,7 +96,7 @@ export const SearchHeader = ({ onSearch, onNavigationToggle }: SearchHeaderProps
           </form>
         )}
 
-        {/* Mobile Menu */}
+        {/* Mobile Navigation Hub */}
         {isMobile && (
           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <SheetTrigger asChild>
@@ -106,16 +106,30 @@ export const SearchHeader = ({ onSearch, onNavigationToggle }: SearchHeaderProps
             </SheetTrigger>
             <SheetContent side="right" className="w-[320px] sm:w-[400px] p-0">
               <div className="p-6 h-full flex flex-col">
+                {/* Header with Navigation Hub title */}
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-xl font-display font-bold text-gradient">Menu</h2>
-                  <Button variant="ghost" size="sm" onClick={() => setIsSheetOpen(false)}>
+                  <div className="flex items-center gap-2">
+                    <div className="bg-gradient-to-br from-orange-100 to-red-100 p-2 rounded-lg">
+                      <Navigation className="h-5 w-5 text-orange-600" />
+                    </div>
+                    <h2 className="text-xl font-display font-bold text-gradient">Navigation Hub</h2>
+                  </div>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    onClick={() => setIsSheetOpen(false)}
+                    className="p-1 hover:bg-orange-50"
+                  >
                     <X className="h-5 w-5" />
                   </Button>
                 </div>
 
-                {/* Mobile Search Form */}
+                {/* Search Section */}
                 <div className="mb-6">
-                  <h3 className="text-sm font-medium text-muted-foreground mb-3">Search Destination</h3>
+                  <h3 className="text-sm font-medium text-muted-foreground mb-3 flex items-center gap-2">
+                    <Search className="h-4 w-4" />
+                    Search Destination
+                  </h3>
                   <form onSubmit={handleSubmit} className="mb-4">
                     <div className="relative group mb-3">
                       <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-red-400 rounded-xl blur-md opacity-20"></div>
@@ -158,9 +172,12 @@ export const SearchHeader = ({ onSearch, onNavigationToggle }: SearchHeaderProps
                   </div>
                 </div>
 
-                {/* Navigation Hub Features */}
+                {/* Navigation Features */}
                 <div className="flex-1">
-                  <h3 className="text-sm font-medium text-muted-foreground mb-3">Navigation Hub</h3>
+                  <h3 className="text-sm font-medium text-muted-foreground mb-3 flex items-center gap-2">
+                    <Compass className="h-4 w-4" />
+                    Navigation Features
+                  </h3>
                   <div className="space-y-2">
                     {navigationFeatures.map((feature, index) => (
                       <Button
@@ -185,15 +202,24 @@ export const SearchHeader = ({ onSearch, onNavigationToggle }: SearchHeaderProps
 
                 {/* Quick Actions */}
                 <div className="mt-6 pt-6 border-t border-gray-200">
-                  <h3 className="text-sm font-medium text-muted-foreground mb-3">Quick Actions</h3>
+                  <h3 className="text-sm font-medium text-muted-foreground mb-3 flex items-center gap-2">
+                    <Sparkles className="h-4 w-4" />
+                    Quick Actions
+                  </h3>
                   <div className="space-y-2">
-                    <Button variant="ghost" className="w-full justify-start text-left">
+                    <Button variant="ghost" className="w-full justify-start text-left p-3 rounded-lg hover:bg-orange-50">
                       <MapPin className="h-4 w-4 mr-3" />
-                      My Trips
+                      <div className="flex-1 text-left">
+                        <div className="font-medium text-sm">My Trips</div>
+                        <div className="text-xs text-muted-foreground">View your travel history</div>
+                      </div>
                     </Button>
-                    <Button variant="ghost" className="w-full justify-start text-left">
-                      <Sparkles className="h-4 w-4 mr-3" />
-                      Saved Places
+                    <Button variant="ghost" className="w-full justify-start text-left p-3 rounded-lg hover:bg-orange-50">
+                      <Heart className="h-4 w-4 mr-3" />
+                      <div className="flex-1 text-left">
+                        <div className="font-medium text-sm">Saved Places</div>
+                        <div className="text-xs text-muted-foreground">Your favorite destinations</div>
+                      </div>
                     </Button>
                   </div>
                 </div>
