@@ -1,7 +1,8 @@
 
 import { useState } from "react";
-import { Compass, Map, Navigation, Route, Sparkles, User, Wallet, TrendingUp, Cloud, WifiOff, Layers, Share2, Bell } from "lucide-react";
+import { Navigation, Route, Sparkles, User, Wallet, TrendingUp, WifiOff, Share2, Bell, Home } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { 
   Sidebar, 
   SidebarContent, 
@@ -15,23 +16,19 @@ import {
   SidebarTrigger,
   useSidebar
 } from "@/components/ui/sidebar";
-import { GPSCompass } from "./GPSCompass";
-import { InteractiveMap } from "./InteractiveMap";
+import { useNavigate } from "react-router-dom";
 import { TravelAdvisoryDashboard } from "./TravelAdvisoryDashboard";
 import { SmartItineraryPlanner } from "./SmartItineraryPlanner";
-import { WeatherWidget } from "./WeatherWidget";
 import { AITravelRecommendations } from "./AITravelRecommendations";
 import { TravelProfileManager } from "./TravelProfileManager";
 import { BudgetTracker } from "./BudgetTracker";
 import { TravelAnalytics } from "./TravelAnalytics";
 import { OfflineMode } from "./OfflineMode";
-import { InteractiveMapView } from "./InteractiveMapView";
 import { SocialSharing } from "./SocialSharing";
 import { LocalAlerts } from "./LocalAlerts";
 
 const navigationItems = [
-  { id: "compass", label: "GPS Compass", icon: Compass },
-  { id: "map", label: "Interactive Map", icon: Map },
+  { id: "home", label: "Home", icon: Home },
   { id: "advisory", label: "Travel Advisory", icon: Navigation },
   { id: "itinerary", label: "Smart Planner", icon: Route },
   { id: "ai-recommendations", label: "AI Recommendations", icon: Sparkles },
@@ -39,7 +36,6 @@ const navigationItems = [
   { id: "budget", label: "Budget Tracker", icon: Wallet },
   { id: "analytics", label: "Analytics", icon: TrendingUp },
   { id: "offline", label: "Offline Mode", icon: WifiOff },
-  { id: "map-view", label: "Map View", icon: Layers },
   { id: "social", label: "Social Sharing", icon: Share2 },
   { id: "alerts", label: "Local Alerts", icon: Bell },
 ];
@@ -104,55 +100,25 @@ function AppSidebar({ activeSection, setActiveSection }: { activeSection: string
 }
 
 export const NavigationDashboard = () => {
-  const [currentLocation, setCurrentLocation] = useState<{ lat: number; lng: number } | null>(null);
-  const [activeSection, setActiveSection] = useState("compass");
-
-  const handleLocationFound = (location: { lat: number; lng: number }) => {
-    setCurrentLocation(location);
-  };
+  const [activeSection, setActiveSection] = useState("home");
+  const navigate = useNavigate();
 
   const renderContent = () => {
     switch (activeSection) {
-      case "compass":
+      case "home":
         return (
           <div className="space-y-6">
-            <div className="grid lg:grid-cols-3 gap-6">
-              <GPSCompass onLocationFound={handleLocationFound} />
-              
-              <Card className="p-6">
-                <h3 className="text-xl font-display font-semibold mb-4">Navigation Stats</h3>
-                <div className="space-y-4">
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Current Location:</span>
-                    <span className="font-medium">
-                      {currentLocation 
-                        ? `${currentLocation.lat.toFixed(4)}, ${currentLocation.lng.toFixed(4)}`
-                        : "Acquiring GPS..."
-                      }
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">GPS Status:</span>
-                    <span className={`font-medium ${currentLocation ? 'text-green-600' : 'text-yellow-600'}`}>
-                      {currentLocation ? "Connected" : "Searching..."}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Compass Accuracy:</span>
-                    <span className="font-medium">High</span>
-                  </div>
-                </div>
-              </Card>
-
-              <WeatherWidget 
-                location={currentLocation || undefined} 
-                locationName="Paris, France" 
-              />
-            </div>
+            <Card className="p-6">
+              <h3 className="text-xl font-display font-semibold mb-4">Welcome to WanderWise Navigation Hub</h3>
+              <p className="text-muted-foreground mb-4">
+                Your complete AI-powered travel companion for smart navigation and intelligent planning.
+              </p>
+              <Button onClick={() => navigate("/home")} className="w-full sm:w-auto">
+                Go to Home Page
+              </Button>
+            </Card>
           </div>
         );
-      case "map":
-        return <InteractiveMap currentLocation={currentLocation || undefined} />;
       case "advisory":
         return <TravelAdvisoryDashboard destination="Paris" />;
       case "itinerary":
@@ -167,8 +133,6 @@ export const NavigationDashboard = () => {
         return <TravelAnalytics />;
       case "offline":
         return <OfflineMode />;
-      case "map-view":
-        return <InteractiveMapView />;
       case "social":
         return <SocialSharing />;
       case "alerts":
@@ -181,36 +145,36 @@ export const NavigationDashboard = () => {
   const currentItem = navigationItems.find(item => item.id === activeSection);
 
   return (
-    <SidebarProvider defaultOpen={true}>
+    <SidebarProvider defaultOpen={false}>
       <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-blue-50 flex w-full">
         <AppSidebar activeSection={activeSection} setActiveSection={setActiveSection} />
         
         <div className="flex-1 flex flex-col overflow-hidden">
           {/* Header with Sidebar Trigger */}
-          <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200 px-6 py-4">
+          <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200 px-4 sm:px-6 py-4">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2 sm:gap-4">
                 <SidebarTrigger className="hover:bg-primary/10" />
-                <div>
-                  <h2 className="text-2xl font-display font-bold text-gray-900">
+                <div className="min-w-0 flex-1">
+                  <h2 className="text-lg sm:text-2xl font-display font-bold text-gray-900 truncate">
                     {currentItem?.label || "Navigation Hub"}
                   </h2>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-xs sm:text-sm text-muted-foreground hidden sm:block">
                     Your complete AI-powered travel companion for smart navigation and intelligent planning
                   </p>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
-                <div className={`w-2 h-2 rounded-full ${currentLocation ? 'bg-green-500' : 'bg-yellow-500'}`}></div>
+              <div className="hidden sm:flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-green-500"></div>
                 <span className="text-sm text-muted-foreground">
-                  {currentLocation ? 'GPS Connected' : 'Searching GPS...'}
+                  Connected
                 </span>
               </div>
             </div>
           </header>
 
           {/* Main Content */}
-          <main className="flex-1 overflow-y-auto p-6">
+          <main className="flex-1 overflow-y-auto p-4 sm:p-6">
             <div className="max-w-7xl mx-auto">
               {renderContent()}
             </div>

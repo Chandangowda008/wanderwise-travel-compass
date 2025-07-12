@@ -27,7 +27,7 @@ const Login = () => {
         title: "Login Successful",
         description: "Welcome to WanderWise!",
       });
-      navigate("/");
+      navigate("/home");
     } else {
       toast({
         title: "Login Failed",
