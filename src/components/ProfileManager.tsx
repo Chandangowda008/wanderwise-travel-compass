@@ -53,8 +53,7 @@ interface AppSettings {
 }
 
 const ProfileManager = () => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [showSettings, setShowSettings] = useState(false);
+  const [showProfileSettings, setShowProfileSettings] = useState(false);
   const [activeTab, setActiveTab] = useState<'profile' | 'settings' | 'liked-posts' | 'saved-places' | 'my-trips'>('profile');
   
   const [profile, setProfile] = useState<UserProfile>({
@@ -101,7 +100,7 @@ const ProfileManager = () => {
 
   const handleSave = () => {
     setProfile(editForm);
-    setIsEditing(false);
+    setShowProfileSettings(false);
     toast({
       title: "Profile Updated",
       description: "Your profile has been successfully updated!",
@@ -110,7 +109,7 @@ const ProfileManager = () => {
 
   const handleCancel = () => {
     setEditForm(profile);
-    setIsEditing(false);
+    setShowProfileSettings(false);
   };
 
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -229,17 +228,6 @@ const ProfileManager = () => {
                         {profile.name.charAt(0)}
                       </AvatarFallback>
                     </Avatar>
-                    {isEditing && (
-                      <label className="absolute bottom-0 right-0 bg-orange-500 text-white p-2 rounded-full cursor-pointer hover:bg-orange-600 transition-colors">
-                        <Camera className="h-4 w-4" />
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={handleAvatarChange}
-                          className="hidden"
-                        />
-                      </label>
-                    )}
                   </div>
                   
                   <div className="space-y-2">
@@ -273,36 +261,23 @@ const ProfileManager = () => {
 
                   {/* Action Buttons */}
                   <div className="flex justify-center gap-3 mt-6">
-                    {isEditing ? (
-                      <>
-                        <Button onClick={handleSave} className="gradient-bg text-white">
-                          <Save className="h-4 w-4 mr-2" />
-                          Save Changes
-                        </Button>
-                        <Button variant="outline" onClick={handleCancel}>
-                          <X className="h-4 w-4 mr-2" />
-                          Cancel
-                        </Button>
-                      </>
-                    ) : (
-                      <Button onClick={() => setIsEditing(true)} variant="outline">
-                        <Edit3 className="h-4 w-4 mr-2" />
-                        Edit Profile
-                      </Button>
-                    )}
+                    <Button onClick={() => setShowProfileSettings(true)} variant="outline">
+                      <Edit3 className="h-4 w-4 mr-2" />
+                      Profile Settings
+                    </Button>
                   </div>
                 </CardHeader>
               </Card>
             </div>
 
-            {/* Edit Form */}
-            {isEditing && (
+            {/* Profile Settings Form */}
+            {showProfileSettings && (
               <div className="lg:col-span-1">
                 <Card className="glass-card border-gradient shadow-soft-hover">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Edit3 className="h-5 w-5" />
-                      Edit Profile
+                      Profile Settings
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
@@ -365,6 +340,39 @@ const ProfileManager = () => {
                         onChange={(e) => setEditForm({ ...editForm, website: e.target.value })}
                         placeholder="https://your-website.com"
                       />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label>Profile Picture</Label>
+                      <div className="flex items-center gap-3">
+                        <Avatar className="h-12 w-12">
+                          <AvatarImage src={editForm.avatar} alt={editForm.name} />
+                          <AvatarFallback className="bg-gradient-to-br from-orange-100 to-red-100 text-orange-600">
+                            {editForm.name.charAt(0)}
+                          </AvatarFallback>
+                        </Avatar>
+                        <label className="bg-orange-500 text-white px-3 py-2 rounded-md cursor-pointer hover:bg-orange-600 transition-colors text-sm">
+                          <Camera className="h-4 w-4 mr-2 inline" />
+                          Change Photo
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleAvatarChange}
+                            className="hidden"
+                          />
+                        </label>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-2 pt-4">
+                      <Button onClick={handleSave} className="gradient-bg text-white flex-1">
+                        <Save className="h-4 w-4 mr-2" />
+                        Save Changes
+                      </Button>
+                      <Button variant="outline" onClick={handleCancel} className="flex-1">
+                        <X className="h-4 w-4 mr-2" />
+                        Cancel
+                      </Button>
                     </div>
                   </CardContent>
                 </Card>

@@ -20,28 +20,23 @@ import { useNavigate } from "react-router-dom";
 import { TravelAdvisoryDashboard } from "./TravelAdvisoryDashboard";
 import { SmartItineraryPlanner } from "./SmartItineraryPlanner";
 import { AITravelRecommendations } from "./AITravelRecommendations";
-import { TravelProfileManager } from "./TravelProfileManager";
 import { BudgetTracker } from "./BudgetTracker";
 import { TravelAnalytics } from "./TravelAnalytics";
 import { OfflineMode } from "./OfflineMode";
 import { SocialSharing } from "./SocialSharing";
 import { LocalAlerts } from "./LocalAlerts";
-import { AppSettings } from "./AppSettings";
 
 
 const navigationItems = [
   { id: "home", label: "Home", icon: Home },
-  { id: "global-explorer", label: "Global Explorer", icon: Globe },
   { id: "advisory", label: "Travel Advisory", icon: Navigation },
   { id: "itinerary", label: "Smart Planner", icon: Route },
   { id: "ai-recommendations", label: "AI Recommendations", icon: Sparkles },
-  { id: "profile", label: "Travel Profile", icon: User },
   { id: "budget", label: "Budget Tracker", icon: Wallet },
   { id: "analytics", label: "Analytics", icon: TrendingUp },
   { id: "offline", label: "Offline Mode", icon: WifiOff },
   { id: "social", label: "Social Sharing", icon: Share2 },
   { id: "alerts", label: "Local Alerts", icon: Bell },
-  { id: "settings", label: "App Settings", icon: Settings },
 ];
 
 function AppSidebar({ activeSection, setActiveSection }: { activeSection: string; setActiveSection: (section: string) => void }) {
@@ -219,12 +214,7 @@ export const NavigationDashboard = () => {
             <AITravelRecommendations />
           </div>
         );
-      case "profile":
-        return (
-          <div className="animate-fade-in">
-            <ProfileManager />
-          </div>
-        );
+
       case "budget":
         return (
           <div className="animate-fade-in">
@@ -256,12 +246,7 @@ export const NavigationDashboard = () => {
           </div>
         );
 
-      case "settings":
-        return (
-          <div className="animate-fade-in">
-            <ProfileManager />
-          </div>
-        );
+
       default:
         return (
           <div className="text-center py-12">
