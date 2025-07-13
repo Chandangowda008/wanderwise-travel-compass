@@ -222,7 +222,7 @@ export const NavigationDashboard = () => {
       case "profile":
         return (
           <div className="animate-fade-in">
-            <TravelProfileManager />
+            <ProfileManager />
           </div>
         );
       case "budget":
@@ -259,7 +259,7 @@ export const NavigationDashboard = () => {
       case "settings":
         return (
           <div className="animate-fade-in">
-            <AppSettings />
+            <ProfileManager />
           </div>
         );
       default:
