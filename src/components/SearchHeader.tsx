@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Mountain, Sparkles, Menu, Navigation, Compass, Globe, MapPin, Heart, TrendingUp, Clock, Users, User, Settings, LogOut, Camera, Edit3, Bookmark, Home } from "lucide-react";
+import { Mountain, Sparkles, Menu, Navigation, Compass, Globe, MapPin, Heart, TrendingUp, Clock, Users, User, Settings, LogOut, Camera, Edit3, Bookmark, Home, Mic, Route, Share2, Trophy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -14,6 +14,12 @@ interface SearchHeaderProps {
 
 export const SearchHeader = ({ onSearch, onNavigationToggle, onNavigateToFeature, currentFeature }: SearchHeaderProps) => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+
+  // User profile data - in a real app this would come from context or props
+  const userProfile = {
+    name: "Alex Johnson",
+    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face",
+  };
 
   const handleNavigationClick = () => {
     if (onNavigationToggle) {
@@ -36,20 +42,18 @@ export const SearchHeader = ({ onSearch, onNavigationToggle, onNavigateToFeature
   };
 
   const profileFeatures = [
-    { icon: Camera, label: "Edit Photo", description: "Change your profile picture", action: () => handleFeatureClick("edit-photo") },
-    { icon: Edit3, label: "Edit Profile", description: "Update your information", action: () => handleFeatureClick("profile") },
-    { icon: Heart, label: "Liked Posts", description: "Posts you've liked", action: () => handleFeatureClick("liked-posts") },
-    { icon: Bookmark, label: "Saved Places", description: "Your saved destinations", action: () => handleFeatureClick("saved-places") },
-    { icon: Settings, label: "Settings", description: "App preferences", action: () => handleFeatureClick("settings") },
+    { icon: User, label: "Profile Settings", description: "Manage your profile and account", action: () => handleFeatureClick("profile") },
   ];
 
   const navigationFeatures = [
     { icon: Compass, label: "Navigation Hub", description: "Access all features", action: () => handleNavigationClick(), feature: "navigation" },
-    { icon: Globe, label: "World Destinations", description: "Explore global destinations", action: () => handleFeatureClick("saved-places"), feature: "saved-places" },
-    { icon: MapPin, label: "Interactive Map", description: "Explore destinations", action: () => handleFeatureClick("interactive-map"), feature: "interactive-map" },
+    { icon: Mic, label: "AI Assistant", description: "Voice-activated travel help", action: () => handleFeatureClick("ai-assistant"), feature: "ai-assistant" },
+    { icon: Route, label: "Smart Planner", description: "Plan your journey", action: () => handleFeatureClick("itinerary-planner"), feature: "itinerary-planner" },
+    { icon: Sparkles, label: "AI Recommendations", description: "Discover hidden gems", action: () => handleFeatureClick("ai-recommendations"), feature: "ai-recommendations" },
     { icon: TrendingUp, label: "Travel Analytics", description: "View insights", action: () => handleFeatureClick("travel-analytics"), feature: "travel-analytics" },
-    { icon: Clock, label: "Itinerary Planner", description: "Plan your trip", action: () => handleFeatureClick("itinerary-planner"), feature: "itinerary-planner" },
-    { icon: Users, label: "Social Sharing", description: "Share adventures", action: () => handleFeatureClick("social-sharing"), feature: "social-sharing" },
+    { icon: Share2, label: "Social Hub", description: "Share adventures", action: () => handleFeatureClick("social-sharing"), feature: "social-sharing" },
+    { icon: Trophy, label: "Travel Challenges", description: "Complete missions", action: () => handleFeatureClick("challenges"), feature: "challenges" },
+    { icon: Camera, label: "AR Guide", description: "Explore with AR", action: () => handleFeatureClick("ar-guide"), feature: "ar-guide" },
   ];
 
   return (
@@ -75,11 +79,12 @@ export const SearchHeader = ({ onSearch, onNavigationToggle, onNavigateToFeature
             size="sm"
             onClick={() => handleFeatureClick("profile")}
             className="p-2 hover:bg-orange-50 transition-all duration-200 hover:scale-105 active:scale-95"
+            title="Profile Settings"
           >
             <Avatar className="h-8 w-8">
-              <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face" alt="Profile" />
+              <AvatarImage src={userProfile.avatar} alt={userProfile.name} />
               <AvatarFallback className="bg-gradient-to-br from-orange-100 to-red-100 text-orange-600 text-sm">
-                A
+                {userProfile.name.charAt(0)}
               </AvatarFallback>
             </Avatar>
           </Button>

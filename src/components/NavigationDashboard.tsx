@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Navigation, Route, Sparkles, User, Wallet, TrendingUp, WifiOff, Share2, Bell, Home, Settings, Globe } from "lucide-react";
+import { Navigation, Route, Sparkles, TrendingUp, Share2, Home, MapPin, Mic, Trophy, Camera } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { 
@@ -20,23 +20,19 @@ import { useNavigate } from "react-router-dom";
 import { TravelAdvisoryDashboard } from "./TravelAdvisoryDashboard";
 import { SmartItineraryPlanner } from "./SmartItineraryPlanner";
 import { AITravelRecommendations } from "./AITravelRecommendations";
-import { BudgetTracker } from "./BudgetTracker";
 import { TravelAnalytics } from "./TravelAnalytics";
-import { OfflineMode } from "./OfflineMode";
 import { SocialSharing } from "./SocialSharing";
-import { LocalAlerts } from "./LocalAlerts";
 
-
+// Simplified navigation items - only essential features
 const navigationItems = [
   { id: "home", label: "Home", icon: Home },
-  { id: "advisory", label: "Travel Advisory", icon: Navigation },
-  { id: "itinerary", label: "Smart Planner", icon: Route },
-  { id: "ai-recommendations", label: "AI Recommendations", icon: Sparkles },
-  { id: "budget", label: "Budget Tracker", icon: Wallet },
-  { id: "analytics", label: "Analytics", icon: TrendingUp },
-  { id: "offline", label: "Offline Mode", icon: WifiOff },
-  { id: "social", label: "Social Sharing", icon: Share2 },
-  { id: "alerts", label: "Local Alerts", icon: Bell },
+  { id: "ai-assistant", label: "AI Assistant", icon: Mic, color: "purple" },
+  { id: "itinerary", label: "Smart Planner", icon: Route, color: "green" },
+  { id: "recommendations", label: "AI Recommendations", icon: Sparkles, color: "blue" },
+  { id: "analytics", label: "Travel Analytics", icon: TrendingUp, color: "orange" },
+  { id: "social", label: "Social Hub", icon: Share2, color: "pink" },
+  { id: "challenges", label: "Travel Challenges", icon: Trophy, color: "yellow" },
+  { id: "ar-guide", label: "AR Guide", icon: Camera, color: "cyan" },
 ];
 
 function AppSidebar({ activeSection, setActiveSection }: { activeSection: string; setActiveSection: (section: string) => void }) {
@@ -52,7 +48,7 @@ function AppSidebar({ activeSection, setActiveSection }: { activeSection: string
               <h1 className="text-2xl font-display font-bold bg-gradient-to-r from-primary to-orange-500 bg-clip-text text-transparent">
                 WanderWise
               </h1>
-              <p className="text-sm text-muted-foreground mt-1">Navigation Hub</p>
+              <p className="text-sm text-muted-foreground mt-1">AI Travel Companion</p>
               <div className="w-12 h-1 bg-gradient-to-r from-primary to-orange-500 rounded-full mx-auto mt-2"></div>
             </div>
           )}
@@ -136,18 +132,17 @@ export const NavigationDashboard = () => {
                   Welcome to WanderWise
                 </h1>
                 <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                  Your complete AI-powered travel companion for smart navigation and intelligent planning
+                  Your AI-powered travel companion for smart navigation and intelligent planning
                 </p>
               </div>
               
               {/* Quick Action Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mt-12">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto mt-12">
                 {[
-                  { id: "advisory", title: "Travel Advisory", desc: "Check safety & alerts", icon: Navigation, color: "blue" },
+                  { id: "ai-assistant", title: "AI Assistant", desc: "Voice-activated travel help", icon: Mic, color: "purple" },
                   { id: "itinerary", title: "Smart Planner", desc: "Plan your journey", icon: Route, color: "green" },
-                  { id: "ai-recommendations", title: "AI Recommendations", desc: "Discover hidden gems", icon: Sparkles, color: "purple" },
-                  { id: "budget", title: "Budget Tracker", desc: "Manage expenses", icon: Wallet, color: "orange" },
-                  { id: "analytics", title: "Travel Analytics", desc: "Track your journeys", icon: TrendingUp, color: "pink" }
+                  { id: "recommendations", title: "AI Recommendations", desc: "Discover hidden gems", icon: Sparkles, color: "blue" },
+                  { id: "challenges", title: "Travel Challenges", desc: "Complete missions", icon: Trophy, color: "yellow" },
                 ].map((item) => {
                   const Icon = item.icon;
                   return (
@@ -196,56 +191,133 @@ export const NavigationDashboard = () => {
             </div>
           </div>
         );
-      case "advisory":
+
+      case "ai-assistant":
         return (
           <div className="animate-fade-in">
-            <TravelAdvisoryDashboard destination="Paris" />
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center mb-8">
+                <h2 className="text-3xl font-display font-bold text-gradient mb-4">AI Travel Assistant</h2>
+                <p className="text-muted-foreground">Your voice-activated travel companion</p>
+              </div>
+              
+              <Card className="p-8 text-center">
+                <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
+                  <Mic className="h-12 w-12 text-white" />
+                </div>
+                <h3 className="text-xl font-semibold mb-4">Voice Commands</h3>
+                <div className="space-y-3 text-left max-w-md mx-auto">
+                  <p className="text-sm text-muted-foreground">• "Plan a 3-day trip to Paris"</p>
+                  <p className="text-sm text-muted-foreground">• "Find the best restaurants nearby"</p>
+                  <p className="text-sm text-muted-foreground">• "Translate this menu"</p>
+                  <p className="text-sm text-muted-foreground">• "What's the weather like?"</p>
+                </div>
+                <Button className="mt-6 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600">
+                  <Mic className="h-4 w-4 mr-2" />
+                  Start Voice Assistant
+                </Button>
+              </Card>
+            </div>
           </div>
         );
+
       case "itinerary":
         return (
           <div className="animate-fade-in">
             <SmartItineraryPlanner />
           </div>
         );
-      case "ai-recommendations":
+
+      case "recommendations":
         return (
           <div className="animate-fade-in">
             <AITravelRecommendations />
           </div>
         );
 
-      case "budget":
-        return (
-          <div className="animate-fade-in">
-            <BudgetTracker />
-          </div>
-        );
       case "analytics":
         return (
           <div className="animate-fade-in">
             <TravelAnalytics />
           </div>
         );
-      case "offline":
-        return (
-          <div className="animate-fade-in">
-            <OfflineMode />
-          </div>
-        );
+
       case "social":
         return (
           <div className="animate-fade-in">
             <SocialSharing />
           </div>
         );
-      case "alerts":
+
+      case "challenges":
         return (
           <div className="animate-fade-in">
-            <LocalAlerts />
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center mb-8">
+                <h2 className="text-3xl font-display font-bold text-gradient mb-4">Travel Challenges</h2>
+                <p className="text-muted-foreground">Complete missions and earn rewards</p>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Card className="p-6">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500 flex items-center justify-center">
+                      <Trophy className="h-6 w-6 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold">Global Explorer</h3>
+                      <p className="text-sm text-muted-foreground">Visit 3 countries in 30 days</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="text-sm text-muted-foreground">Progress: 1/3</div>
+                    <Button size="sm" variant="outline">View Details</Button>
+                  </div>
+                </Card>
+                
+                <Card className="p-6">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center">
+                      <Camera className="h-6 w-6 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold">Photo Master</h3>
+                      <p className="text-sm text-muted-foreground">Share 10 travel photos</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="text-sm text-muted-foreground">Progress: 7/10</div>
+                    <Button size="sm" variant="outline">View Details</Button>
+                  </div>
+                </Card>
+              </div>
+            </div>
           </div>
         );
 
+      case "ar-guide":
+        return (
+          <div className="animate-fade-in">
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center mb-8">
+                <h2 className="text-3xl font-display font-bold text-gradient mb-4">AR Travel Guide</h2>
+                <p className="text-muted-foreground">Explore cities with augmented reality</p>
+              </div>
+              
+              <Card className="p-8 text-center">
+                <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center">
+                  <Camera className="h-12 w-12 text-white" />
+                </div>
+                <h3 className="text-xl font-semibold mb-4">Point & Explore</h3>
+                <p className="text-muted-foreground mb-6">Point your camera at landmarks to get instant information, directions, and historical facts.</p>
+                <Button className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600">
+                  <Camera className="h-4 w-4 mr-2" />
+                  Launch AR Guide
+                </Button>
+              </Card>
+            </div>
+          </div>
+        );
 
       default:
         return (
@@ -274,7 +346,7 @@ export const NavigationDashboard = () => {
                     {currentItem?.label || "Navigation Hub"}
                   </h2>
                   <p className="text-xs sm:text-sm text-muted-foreground hidden sm:block">
-                    Your complete AI-powered travel companion for smart navigation and intelligent planning
+                    Your AI-powered travel companion for smart navigation and intelligent planning
                   </p>
                 </div>
               </div>
