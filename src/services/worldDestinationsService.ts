@@ -68,7 +68,7 @@ export class WorldDestinationsService {
         .order('rating', { ascending: false });
 
       if (error) throw error;
-      return data || [];
+      return (data as any) || [];
     } catch (error) {
       console.error('Error fetching destinations:', error);
       throw error;
@@ -85,7 +85,7 @@ export class WorldDestinationsService {
         .single();
 
       if (error) throw error;
-      return data;
+      return data as any;
     } catch (error) {
       console.error('Error fetching destination:', error);
       throw error;
@@ -99,7 +99,7 @@ export class WorldDestinationsService {
         .rpc('search_destinations', { search_query: query });
 
       if (error) throw error;
-      return data || [];
+      return (data as any) || [];
     } catch (error) {
       console.error('Error searching destinations:', error);
       throw error;
@@ -113,7 +113,7 @@ export class WorldDestinationsService {
         .rpc('get_destinations_by_continent', { continent_filter: continent });
 
       if (error) throw error;
-      return data || [];
+      return (data as any) || [];
     } catch (error) {
       console.error('Error fetching destinations by continent:', error);
       throw error;
@@ -127,7 +127,7 @@ export class WorldDestinationsService {
         .rpc('get_destinations_by_budget', { budget_filter: budget });
 
       if (error) throw error;
-      return data || [];
+      return (data as any) || [];
     } catch (error) {
       console.error('Error fetching destinations by budget:', error);
       throw error;
@@ -144,7 +144,7 @@ export class WorldDestinationsService {
         .order('rating', { ascending: false });
 
       if (error) throw error;
-      return data || [];
+      return (data as any) || [];
     } catch (error) {
       console.error('Error fetching destinations by climate:', error);
       throw error;
@@ -161,7 +161,7 @@ export class WorldDestinationsService {
         .order('rating', { ascending: false });
 
       if (error) throw error;
-      return data || [];
+      return (data as any) || [];
     } catch (error) {
       console.error('Error fetching destinations by rating:', error);
       throw error;
@@ -178,7 +178,7 @@ export class WorldDestinationsService {
         .limit(count);
 
       if (error) throw error;
-      return data || [];
+      return (data as any) || [];
     } catch (error) {
       console.error('Error fetching random destinations:', error);
       throw error;
@@ -195,7 +195,7 @@ export class WorldDestinationsService {
         .order('importance', { ascending: false });
 
       if (error) throw error;
-      return data || [];
+      return (data as any) || [];
     } catch (error) {
       console.error('Error fetching travel tips:', error);
       throw error;
@@ -211,7 +211,7 @@ export class WorldDestinationsService {
         .order('importance', { ascending: false });
 
       if (error) throw error;
-      return data || [];
+      return (data as any) || [];
     } catch (error) {
       console.error('Error fetching all travel tips:', error);
       throw error;
@@ -225,7 +225,7 @@ export class WorldDestinationsService {
         .rpc('get_user_favorites', { user_uuid: userId });
 
       if (error) throw error;
-      return data || [];
+      return (data as any) || [];
     } catch (error) {
       console.error('Error fetching user favorites:', error);
       throw error;
@@ -413,7 +413,7 @@ export class WorldDestinationsService {
       const [
         { count: totalDestinations },
         { count: totalTips },
-        { data: continents }
+        continents
       ] = await Promise.all([
         supabase.from('world_destinations').select('*', { count: 'exact', head: true }),
         supabase.from('travel_tips').select('*', { count: 'exact', head: true }),

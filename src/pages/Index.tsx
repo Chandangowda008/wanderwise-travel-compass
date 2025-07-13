@@ -5,7 +5,7 @@ import { HeroSection } from "@/components/HeroSection";
 import { RecommendationResults } from "@/components/RecommendationResults";
 import { FeatureHighlights } from "@/components/FeatureHighlights";
 import { NavigationDashboard } from "@/components/NavigationDashboard";
-import { InteractiveMap } from "@/components/InteractiveMap";
+
 import { TravelAnalytics } from "@/components/TravelAnalytics";
 import { SmartItineraryPlanner } from "@/components/SmartItineraryPlanner";
 import { SocialSharing } from "@/components/SocialSharing";
