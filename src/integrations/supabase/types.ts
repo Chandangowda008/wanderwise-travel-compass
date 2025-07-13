@@ -292,12 +292,271 @@ export type Database = {
           },
         ]
       }
+      travel_tips: {
+        Row: {
+          category: string | null
+          content: string
+          created_at: string | null
+          destination_name: string
+          id: string
+          importance: string | null
+          title: string
+        }
+        Insert: {
+          category?: string | null
+          content: string
+          created_at?: string | null
+          destination_name: string
+          id: string
+          importance?: string | null
+          title: string
+        }
+        Update: {
+          category?: string | null
+          content?: string
+          created_at?: string | null
+          destination_name?: string
+          id?: string
+          importance?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
+      user_favorites: {
+        Row: {
+          created_at: string | null
+          destination_id: string | null
+          id: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          destination_id?: string | null
+          id?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          destination_id?: string | null
+          id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_favorites_destination_id_fkey"
+            columns: ["destination_id"]
+            isOneToOne: false
+            referencedRelation: "world_destinations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_visited_destinations: {
+        Row: {
+          created_at: string | null
+          destination_id: string | null
+          id: string
+          notes: string | null
+          rating: number | null
+          user_id: string | null
+          visit_date: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          destination_id?: string | null
+          id?: string
+          notes?: string | null
+          rating?: number | null
+          user_id?: string | null
+          visit_date?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          destination_id?: string | null
+          id?: string
+          notes?: string | null
+          rating?: number | null
+          user_id?: string | null
+          visit_date?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_visited_destinations_destination_id_fkey"
+            columns: ["destination_id"]
+            isOneToOne: false
+            referencedRelation: "world_destinations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      world_destinations: {
+        Row: {
+          activities: string[] | null
+          attractions: string[] | null
+          avg_temperature: Json | null
+          best_time_to_visit: string[] | null
+          climate: string | null
+          continent: string
+          coordinates: Json | null
+          country: string
+          created_at: string | null
+          cuisine: string[] | null
+          currency: string | null
+          description: string | null
+          id: string
+          image_url: string | null
+          languages: string[] | null
+          name: string
+          price_range: string | null
+          rating: number | null
+          safety_level: string | null
+          timezone: string | null
+          updated_at: string | null
+          visa_required: boolean | null
+        }
+        Insert: {
+          activities?: string[] | null
+          attractions?: string[] | null
+          avg_temperature?: Json | null
+          best_time_to_visit?: string[] | null
+          climate?: string | null
+          continent: string
+          coordinates?: Json | null
+          country: string
+          created_at?: string | null
+          cuisine?: string[] | null
+          currency?: string | null
+          description?: string | null
+          id: string
+          image_url?: string | null
+          languages?: string[] | null
+          name: string
+          price_range?: string | null
+          rating?: number | null
+          safety_level?: string | null
+          timezone?: string | null
+          updated_at?: string | null
+          visa_required?: boolean | null
+        }
+        Update: {
+          activities?: string[] | null
+          attractions?: string[] | null
+          avg_temperature?: Json | null
+          best_time_to_visit?: string[] | null
+          climate?: string | null
+          continent?: string
+          coordinates?: Json | null
+          country?: string
+          created_at?: string | null
+          cuisine?: string[] | null
+          currency?: string | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          languages?: string[] | null
+          name?: string
+          price_range?: string | null
+          rating?: number | null
+          safety_level?: string | null
+          timezone?: string | null
+          updated_at?: string | null
+          visa_required?: boolean | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_destinations_by_budget: {
+        Args: { budget_filter: string }
+        Returns: {
+          id: string
+          name: string
+          country: string
+          continent: string
+          description: string
+          image_url: string
+          rating: number
+          price_range: string
+          best_time_to_visit: string[]
+          attractions: string[]
+          cuisine: string[]
+          activities: string[]
+          coordinates: Json
+          climate: string
+          languages: string[]
+          currency: string
+          timezone: string
+          safety_level: string
+          visa_required: boolean
+          avg_temperature: Json
+        }[]
+      }
+      get_destinations_by_continent: {
+        Args: { continent_filter: string }
+        Returns: {
+          id: string
+          name: string
+          country: string
+          continent: string
+          description: string
+          image_url: string
+          rating: number
+          price_range: string
+          best_time_to_visit: string[]
+          attractions: string[]
+          cuisine: string[]
+          activities: string[]
+          coordinates: Json
+          climate: string
+          languages: string[]
+          currency: string
+          timezone: string
+          safety_level: string
+          visa_required: boolean
+          avg_temperature: Json
+        }[]
+      }
+      get_user_favorites: {
+        Args: { user_uuid: string }
+        Returns: {
+          destination_id: string
+          destination_name: string
+          country: string
+          continent: string
+          image_url: string
+          rating: number
+          price_range: string
+          added_at: string
+        }[]
+      }
+      search_destinations: {
+        Args: { search_query: string }
+        Returns: {
+          id: string
+          name: string
+          country: string
+          continent: string
+          description: string
+          image_url: string
+          rating: number
+          price_range: string
+          best_time_to_visit: string[]
+          attractions: string[]
+          cuisine: string[]
+          activities: string[]
+          coordinates: Json
+          climate: string
+          languages: string[]
+          currency: string
+          timezone: string
+          safety_level: string
+          visa_required: boolean
+          avg_temperature: Json
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
