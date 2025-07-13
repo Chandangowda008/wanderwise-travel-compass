@@ -27,7 +27,7 @@ import { OfflineMode } from "./OfflineMode";
 import { SocialSharing } from "./SocialSharing";
 import { LocalAlerts } from "./LocalAlerts";
 import { AppSettings } from "./AppSettings";
-import { GlobalExplorer } from "./GlobalExplorer";
+
 
 const navigationItems = [
   { id: "home", label: "Home", icon: Home },
@@ -148,7 +148,6 @@ export const NavigationDashboard = () => {
               {/* Quick Action Cards */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mt-12">
                 {[
-                  { id: "global-explorer", title: "Global Explorer", desc: "Interactive world map", icon: Globe, color: "cyan" },
                   { id: "advisory", title: "Travel Advisory", desc: "Check safety & alerts", icon: Navigation, color: "blue" },
                   { id: "itinerary", title: "Smart Planner", desc: "Plan your journey", icon: Route, color: "green" },
                   { id: "ai-recommendations", title: "AI Recommendations", desc: "Discover hidden gems", icon: Sparkles, color: "purple" },
@@ -256,12 +255,7 @@ export const NavigationDashboard = () => {
             <LocalAlerts />
           </div>
         );
-      case "global-explorer":
-        return (
-          <div className="animate-fade-in">
-            <GlobalExplorer />
-          </div>
-        );
+
       case "settings":
         return (
           <div className="animate-fade-in">

@@ -11,7 +11,6 @@ import { SmartItineraryPlanner } from "@/components/SmartItineraryPlanner";
 import { SocialSharing } from "@/components/SocialSharing";
 import { ProfileManager } from "@/components/ProfileManager";
 import TravelFeed from "@/components/TravelFeed";
-import { GlobalExplorer } from "@/components/GlobalExplorer";
 
 const Index = () => {
   const [searchCity, setSearchCity] = useState<string>("");
@@ -89,7 +88,14 @@ const Index = () => {
         setIsLoggedIn(false);
         return null;
       case "saved-places":
-        return <GlobalExplorer />;
+        return (
+          <div className="min-h-screen flex items-center justify-center">
+            <div className="text-center">
+              <h2 className="text-2xl font-bold mb-4">Saved Places</h2>
+              <p className="text-muted-foreground">Your saved places will appear here</p>
+            </div>
+          </div>
+        );
       default:
         return null;
     }
